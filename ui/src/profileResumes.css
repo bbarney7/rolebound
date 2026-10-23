@@ -1,0 +1,151 @@
+.rb-profile-resumes {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-group, 16px);
+}
+
+.rb-resumes-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: var(--space-inset, 16px);
+  border-bottom: 1px solid var(--line);
+}
+
+.rb-resumes-header .rb-h-major {
+  margin: 0;
+}
+
+.rb-resume-file-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rb-resume-file-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "name actions"
+    "meta actions"
+    "note note";
+  gap: 4px 16px;
+  align-items: center;
+  padding: 16px var(--space-inset, 16px);
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+
+.rb-resume-file-row:last-child {
+  border-bottom: 0;
+}
+
+.rb-resume-file-name {
+  grid-area: name;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rb-resume-default-label {
+  flex: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: none;
+}
+
+.rb-resume-file-meta {
+  grid-area: meta;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.rb-resume-file-note {
+  grid-area: note;
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.rb-resume-file-actions {
+  grid-area: actions;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.rb-resume-file-actions .btn {
+  min-height: 44px;
+}
+
+.rb-resumes-advanced {
+  margin: 0 var(--space-inset, 16px) var(--space-inset, 16px);
+}
+
+.rb-resumes-advanced .note {
+  margin: 0 0 12px;
+}
+
+.rb-resumes-advanced .field {
+  margin-top: 16px;
+}
+
+.rb-resume-region-rules {
+  margin: 0 0 12px;
+  padding-left: 1.25rem;
+}
+
+/* Shared with Applications settings — same spacing tokens as other settings sections. */
+.rb-settings-dl {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+}
+
+.rb-settings-dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr);
+  gap: 4px 16px;
+  align-items: baseline;
+}
+
+.rb-settings-dl dt {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.rb-settings-dl dd {
+  margin: 0;
+  font-size: 14px;
+}
+
+@container (max-width: 599px) {
+  .rb-resume-file-row {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "name"
+      "meta"
+      "note"
+      "actions";
+  }
+
+  .rb-resume-file-actions {
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+}

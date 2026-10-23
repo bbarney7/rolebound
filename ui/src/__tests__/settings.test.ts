@@ -68,7 +68,25 @@ describe("ApplicationsSettingsSection", () => {
     );
     expect(html).toContain("Applications");
     expect(html).toContain("Automatic (no per-application confirmation)");
-    expect(html).toContain(AUTO_SUBMIT_POLICY_VERSION);
+    expect(html).toContain("You turned on automatic submission on");
+    expect(html).not.toContain(AUTO_SUBMIT_POLICY_VERSION);
     expect(html).toContain("At most one application every 10 minutes");
+  });
+
+  it("links to Setup when the submission policy changed", () => {
+    const html = renderToStaticMarkup(
+      createElement(ApplicationsSettingsSection, {
+        acknowledgement: {
+          at: "2025-06-01T00:00:00.000Z",
+          policy: "auto-submit-v0",
+          current: AUTO_SUBMIT_POLICY_VERSION,
+        },
+        captchaProvider: "off",
+        captchaDailyPaidTasksCount: null,
+      }),
+    );
+    expect(html).toContain("The submission policy changed since you turned this on.");
+    expect(html).toContain('href="/setup"');
+    expect(html).not.toContain("auto-submit-v0");
   });
 });

@@ -5,11 +5,15 @@ import {
   addressStateTone,
   bodyKey,
   bulletKey,
+  bulletFieldDisplayValue,
+  bulletPlaceholderHint,
   changedBullets,
   commitDraft,
   draftsFromPayload,
+  isBulletTemplatePlaceholder,
   reachabilityLabel,
   reachabilityTone,
+  resumeFileUsageSentence,
   reconcileDrafts,
   sectionFallback,
   sectionIsDirty,
@@ -297,6 +301,48 @@ describe("changedBullets", () => {
     const seeded = reconcileDrafts(EMPTY_DRAFTS, draftsFromPayload(identityPayload(stored)));
     const drafts = { ...seeded.drafts, [EMAIL]: "me@example.com" };
     expect(changedBullets("identity", stored, drafts)).toEqual({ email: "me@example.com" });
+  });
+});
+
+describe("bullet template placeholders", () => {
+  const italic =
+    "*(optional — used only when an ATS signup form rejects `+aliasing`)*";
+
+  it("detects catalog and italic placeholders", () => {
+    expect(isBulletTemplatePlaceholder("<FILL IN>")).toBe(true);
+    expect(isBulletTemplatePlaceholder(italic)).toBe(true);
+    expect(isBulletTemplatePlaceholder("real@example.com")).toBe(false);
+  });
+
+  it("maps placeholders to display hints", () => {
+    expect(bulletPlaceholderHint("<FILL IN>")).toBe("Required");
+    expect(bulletPlaceholderHint(italic)).toBe(
+      "optional — used only when an ATS signup form rejects +aliasing",
+    );
+    expect(bulletFieldDisplayValue(italic)).toBe("");
+  });
+
+  it("skips untouched placeholders in changedBullets", () => {
+    const bullets = [bullet("fallback", italic)];
+    const drafts = { [bulletKey("identity", "fallback")]: italic };
+    expect(changedBullets("identity", bullets, drafts)).toEqual({});
+  });
+});
+
+describe("resumeFileUsageSentence", () => {
+  it("describes region and non-pdf files in plain language", () => {
+    expect(
+      resumeFileUsageSentence(
+        { name: "notes.docx", key: "notes", reachability: "orphan" },
+        [],
+      ),
+    ).toBe("Only PDFs can be sent with applications");
+    expect(
+      resumeFileUsageSentence(
+        { name: "denver.pdf", key: "denver", reachability: "region" },
+        [{ key: "denver", terms: ["Denver", "Boulder"] }],
+      ),
+    ).toBe("Used for jobs in Denver or Boulder");
   });
 });
 
