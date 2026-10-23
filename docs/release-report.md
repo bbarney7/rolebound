@@ -1,14 +1,14 @@
 # Local release verification
 
-## 2026-10-22 — Current status (supersedes older "pending" notes below)
+## 2026-10-23 — First public release (current status)
 
 | Item | Status |
 | --- | --- |
-| License | **MIT**, chosen by the owner on 2026-10-22. `LICENSE` and `NOTICE.md` are in the export allowlist. |
-| Destination | <https://github.com/bbarney7/rolebound>, **private** as of 2026-10-22. Not yet published. |
-| Remote CI | Last green runs on `main`: 2026-10-07 (PR #1) and 2026-10-08 (PR #2, PR #3). Every run since 2026-10-14 (chat-first merge onward) was **not started** by GitHub: "recent account payments have failed or your spending limit needs to be increased". No remote result exists for current `main`. |
-| Local unit tests | On `main` at `d50a540` (agent-instructions merge), macOS, Node 24: root **504 passed**, UI/server **1270 passed**, both typechecks clean. |
-| Real-provider and live-application pilot | Not run (PJR-23 Phase B, needs owner authorization). |
+| License | **MIT** (`LICENSE`); third-party notices in `NOTICE.md`. |
+| Repository | Public at <https://github.com/bbarney7/rolebound> since 2026-10-23, published as a single initial commit. Earlier development history is kept privately; commit and PR references in the historical sections below point into that history. |
+| Remote CI | The first public run stopped at the dependency audit: advisories published after the last green run cover `vite` up to 8.3.2, `vitest`/`@vitest/mocker` before 4.1.12, and `ip-address` up to 10.7.3. Fixed by moving to `vite` 8.3.4 (pinned for every dependent through a root override), `vitest` 4.1.12 and `ip-address` 10.7.4. |
+| Local verification | macOS, Node 24.14.0, npm 11.9.0, after the upgrade: dependency audit passes with no findings; root **504** and UI/server **1270** unit tests; both typechecks; production build; demo smoke; workspace (49), lifecycle (12) and release-tool tests; desktop browser suite **192 passed** (44 skipped by design) plus fresh-onboarding suite **12 passed**. A clean `npm ci`, build, demo smoke and unit run on the reviewed export (498 files, `release:audit` clean) also passed. |
+| Real-provider and live-application pilot | Not run yet. Automated checks use fictional fixtures, a fake model and a local fake ATS only. |
 
 The results below are historical and describe the commits they name.
 

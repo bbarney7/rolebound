@@ -25,9 +25,7 @@ with a repair path (`npm run restore`, `npm run doctor -- --repair`). See
 
 ## Availability
 
-The source lives at <https://github.com/bbarney7/rolebound>. As of 2026-10-22 the
-repository is **private**; the clone command below works for people with access and
-will work for everyone once it is made public.
+The source is public at <https://github.com/bbarney7/rolebound> (published 2026-10-23).
 
 ## Requirements
 

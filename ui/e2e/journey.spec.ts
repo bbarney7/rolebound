@@ -19,9 +19,9 @@ import {
   resetWorkspace,
   selectDiscovery,
   startQueueApply,
-  submitUiRequestInput,
   waitForDiscovery,
   workspaceDialog,
+  submitDemoCodeAndExpectReceipt,
 } from "./test-helpers";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -197,8 +197,7 @@ test.describe("demo apply journey", () => {
     }).toBeTruthy();
 
     await startQueueApply(page);
-    await submitUiRequestInput(page, "Demo verification code", "12345678");
-    await expect(page.getByText(/Demo receipt written/i)).toBeVisible({ timeout: 20_000 });
+    await submitDemoCodeAndExpectReceipt(page);
 
     await expect.poll(async () => {
       const res = await page.request.get("/api/applications/e2e-engineer");
