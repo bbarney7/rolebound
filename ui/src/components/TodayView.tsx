@@ -49,7 +49,7 @@ export default function TodayView({
     : !applyReady
       ? "Finish setup to unlock applying"
       : !next
-        ? "Find roles worth preparing"
+        ? "Find roles worth adding to your shortlist"
         : `Apply next: ${next.title ?? next.slug}`;
 
   const actionLead = runActive
@@ -58,19 +58,19 @@ export default function TodayView({
       ? uniqueBlockers[0]?.message ?? "Complete the remaining setup steps first."
       : next
         ? `${next.company ?? "Company unavailable"} · ${next.location ?? "Location unspecified"}`
-        : "Gather opportunities, promote the best fits, then supervise each application.";
+        : "Find jobs at the companies you watch, add the best fits to your shortlist, then supervise each application.";
 
   const primaryAction = runActive
     ? { label: "Open session", onClick: onRun, disabled: false }
     : !applyReady
       ? { label: "Open setup", onClick: () => onNavigate("/setup"), disabled: false }
       : !next
-        ? { label: "Browse opportunities", onClick: () => onNavigate("/discover"), disabled: false }
+        ? { label: "Browse found jobs", onClick: () => onNavigate("/discover"), disabled: false }
         : { label: "Apply next in queue", onClick: onApplyNext, disabled: !canApply };
 
   const gatherMeta = overview.lastFullGather
-    ? `Last full gather ${relativeDays(overview.lastFullGather)} · ${overview.lastFullGather.slice(0, 10)}`
-    : "Last full gather never";
+    ? `Last searched ${relativeDays(overview.lastFullGather)} · ${overview.lastFullGather.slice(0, 10)}`
+    : "Not searched yet";
 
   return (
     <article className="rb-today">
@@ -93,7 +93,7 @@ export default function TodayView({
           </button>
           {!runActive && applyReady ? (
             <button type="button" className="btn ghost" onClick={onGather}>
-              Gather jobs
+              Find jobs now
             </button>
           ) : null}
         </div>
@@ -154,7 +154,7 @@ export default function TodayView({
               <h2 id="recent-heading" className="rb-feed-title">Recent outcomes</h2>
               {applications.length > 0 ? (
                 <button type="button" className="text-link" onClick={() => onOpenApplication("")}>
-                  All follow-up
+                  All sent
                 </button>
               ) : null}
             </div>
@@ -173,7 +173,7 @@ export default function TodayView({
                 ))}
               </ul>
             ) : (
-              <p className="rb-inline-empty">No applications yet — promote an opportunity into preparation first.</p>
+              <p className="rb-inline-empty">No applications yet — add a found job to your shortlist first.</p>
             )}
           </section>
         </div>
@@ -184,29 +184,29 @@ export default function TodayView({
             <li>
               <button type="button" className="rb-stat-link" onClick={() => onNavigate("/discover")}>
                 <span className="rb-stat-num">{overview.discovered}</span>
-                <span className="rb-stat-label">Opportunities</span>
+                <span className="rb-stat-label">Found</span>
               </button>
             </li>
             <li>
               <button type="button" className="rb-stat-link" onClick={() => onNavigate("/queue")}>
                 <span className="rb-stat-num">{overview.queue}</span>
-                <span className="rb-stat-label">Preparation</span>
+                <span className="rb-stat-label">Shortlist</span>
               </button>
             </li>
             <li>
               <button type="button" className="rb-stat-link" onClick={() => onOpenApplication("")}>
                 <span className="rb-stat-num">{overview.applications?.total ?? 0}</span>
-                <span className="rb-stat-label">Follow-up</span>
+                <span className="rb-stat-label">Sent</span>
               </button>
             </li>
           </ul>
           <p className="rb-aside-note">
             {overview.queue > 0
-              ? `${overview.queue} role${overview.queue === 1 ? "" : "s"} ready in preparation.`
-              : "Preparation queue is empty."}
+              ? `${overview.queue} role${overview.queue === 1 ? "" : "s"} on your shortlist.`
+              : "Your shortlist is empty."}
           </p>
           <button type="button" className="text-link" onClick={() => onNavigate("/queue")}>
-            Open preparation →
+            Open shortlist →
           </button>
         </aside>
       </div>

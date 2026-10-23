@@ -62,6 +62,7 @@ import TodayView from "./components/TodayView";
 import DiscoverView from "./components/DiscoverView";
 import InstructionsView from "./InstructionsView";
 import Topbar from "./Topbar";
+import { shortlistTopbarSub } from "./jobSearchCopy";
 
 type View = Exclude<RouteView, "not-found">;
 
@@ -968,7 +969,7 @@ export default function App() {
           <><Topbar title="Setup" sub="Four steps from connection to application" /><SetupView navigate={navigateHref} onReadinessChange={setReadiness} /></>
         ) : !selectedSlug && view === "queue" ? (
           <>
-            <Topbar title="Shortlist" sub={`${queue.length} roles to review`} />
+            <Topbar title="Shortlist" sub={shortlistTopbarSub(queue.length)} />
             {queueLoaded ? (
               <QueueList
                 items={queue}
@@ -1161,6 +1162,7 @@ export default function App() {
                 onFromChange={setFromDate}
                 onToChange={setToDate}
                 onSelect={openApplication}
+                onNavigate={navigateHref}
               />
             ) : (
               <Pending error={error} />
@@ -1168,6 +1170,7 @@ export default function App() {
           </>
         );
 
+  const discoverTab = parseRoute(window.location.href).tab;
   const themeResolved = resolvedTheme(themeChoice);
   const onThemeToggle = () => {
     const next: ThemeChoice = themeResolved === "dark" ? "light" : "dark";
@@ -1232,7 +1235,40 @@ export default function App() {
             onNavigate={workspaceNavigate}
             onClose={closeWorkspace}
           >
-            {(view === "discover" || view === "queue") && <nav className="rb-job-nav" aria-label="Job search"><a href="/discover" onClick={e => { e.preventDefault(); navigateHref("/discover"); }}>Found jobs</a><a href="/queue" onClick={e => { e.preventDefault(); navigateHref("/queue"); }}>Shortlist</a><a href="/discover?tab=companies" onClick={e => { e.preventDefault(); navigateHref("/discover?tab=companies"); }}>Companies to watch</a></nav>}
+            {(view === "discover" || view === "queue") && (
+              <nav className="rb-job-nav" aria-label="Job search">
+                <a
+                  href="/discover"
+                  aria-current={view === "discover" && discoverTab !== "companies" ? "page" : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateHref("/discover");
+                  }}
+                >
+                  Found jobs
+                </a>
+                <a
+                  href="/queue"
+                  aria-current={view === "queue" ? "page" : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateHref("/queue");
+                  }}
+                >
+                  Shortlist
+                </a>
+                <a
+                  href="/discover?tab=companies"
+                  aria-current={view === "discover" && discoverTab === "companies" ? "page" : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateHref("/discover?tab=companies");
+                  }}
+                >
+                  Companies to watch
+                </a>
+              </nav>
+            )}
             {workspacePanel}
           </WorkspaceDrawer>
         </>

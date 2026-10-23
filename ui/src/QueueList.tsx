@@ -1,6 +1,7 @@
 import type { QueueItem } from "../shared/types";
 import Stamp from "./Stamp";
 import "./surfaces.css";
+import "./jobSearch.css";
 
 function isHttpUrl(value: string): boolean {
   try {
@@ -50,24 +51,24 @@ export default function QueueList({
   activeApplySlug?: string | null;
 }) {
   return (
-    <div className="rb-surface">
+    <div className="rb-surface rb-job-search-stack">
       <div className="rb-list-panel card">
         <div className="rb-list-panel-head head">
-          <h2 className="rb-h-major">Preparation queue</h2>
+          <h2 className="rb-h-major">Up next</h2>
           <p className={removeError ? "rb-section-note crit note" : "rb-section-note note"}>
             {removeError
               ? `Remove failed: ${removeError}`
               : removing
                 ? "removing…"
-                : `${items.length} queued`}
+                : `${items.length} on shortlist`}
           </p>
         </div>
 
         {items.length === 0 ? (
           <div className="rb-empty state">
             <span className="glyph" aria-hidden="true">∅</span>
-            <p>The queue is empty — nothing is ready to apply next.</p>
-            <p>Add one below or promote a discovered job.</p>
+            <p>Your shortlist is empty — nothing is ready to apply next.</p>
+            <p>Add a job below or add one from found jobs.</p>
           </div>
         ) : (
           <div className="rb-list-panel-body table-scroll rb-record-list">
@@ -78,7 +79,7 @@ export default function QueueList({
                   <th>Role</th>
                   <th>Company</th>
                   <th>Job URL</th>
-                  <th>In queue since</th>
+                  <th>Added</th>
                   <th>Overrides</th>
                   <th>Actions</th>
                 </tr>
@@ -86,7 +87,7 @@ export default function QueueList({
               <tbody>
                 {items.map((item) => (
                   <tr key={item.slug} className="row" onClick={() => onConfirmChange(null)}>
-                    <td className="pos num">
+                    <td className="pos num" data-label="#">
                       <span className="pos-num">{item.position + 1}</span>
                       {item.position === 0 && (
                         <span title="/apply-next consumes the first file in this order">
@@ -94,7 +95,7 @@ export default function QueueList({
                         </span>
                       )}
                     </td>
-                    <td>
+                    <td data-label="Role" className="rb-stack-skip-label">
                       <div className="rb-record-title">{item.title ?? "—"}</div>
                       <div className="rb-record-sub slug" title={item.filePath}>
                         {item.slug}
@@ -106,10 +107,10 @@ export default function QueueList({
                         )}
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Company">
                       <div className="co">{item.company ?? item.slug}</div>
                     </td>
-                    <td className="url">
+                    <td className="url" data-label="Job URL">
                       {item.url ? (
                         isHttpUrl(item.url) ? (
                           <a href={item.url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
@@ -122,12 +123,11 @@ export default function QueueList({
                         "—"
                       )}
                     </td>
-                    <td className="num">
+                    <td className="num" data-label="Added">
                       {formatDate(item.queuedAt)}
-                      <span className="slug" title="file change time, not a recorded queue timestamp"> ‡</span>
                     </td>
-                    <td className="slug">{overrideSummary(item)}</td>
-                    <td>
+                    <td className="slug" data-label="Overrides">{overrideSummary(item)}</td>
+                    <td data-label="Actions">
                       <span className="row-actions">
                         <button
                           type="button"
@@ -193,18 +193,12 @@ export default function QueueList({
         )}
       </div>
 
-      <div className="rb-footnotes">
-        <p className="note">
-          ‡ file change time. For a job promoted from discovery this is the moment it was
-          promoted; for a job added here it is the moment it was created.
-        </p>
-        <p className="note">
-          Advisory overrides are written into the queue file frontmatter for the agent to read — nothing enforces them in code.
-        </p>
-        <p className="note">
-          Rows are listed in filename sort order. Removing a row deletes its file and cannot be undone.
-        </p>
-      </div>
+      <details className="rb-footnotes">
+        <summary>About this list</summary>
+        <p className="note">The date is when the job was added to your shortlist.</p>
+        <p className="note">Overrides are notes the agent reads when applying. Rolebound does not enforce them automatically.</p>
+        <p className="note">Remove deletes the job from your shortlist and cannot be undone.</p>
+      </details>
     </div>
   );
 }

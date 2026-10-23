@@ -2,6 +2,7 @@ import { matchesApplicationFilter } from "./applicationFilters";
 import { APPLY_STATES, PIPELINE_STATUSES, type Application } from "../shared/types";
 import Stamp, { applyStateTone, humanize, pipelineTone } from "./Stamp";
 import "./surfaces.css";
+import "./jobSearch.css";
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
@@ -27,7 +28,7 @@ function ApplicationTable({ rows, onSelect }: { rows: Application[]; onSelect: (
         <tbody>
           {rows.map((a) => (
             <tr key={a.slug} className="row" onClick={() => onSelect(a.slug)}>
-              <td>
+              <td data-label="Role" className="rb-stack-skip-label">
                 <button
                   type="button"
                   className="row-open rb-record-title"
@@ -40,22 +41,22 @@ function ApplicationTable({ rows, onSelect }: { rows: Application[]; onSelect: (
                   {a.title ?? "—"}
                 </button>
               </td>
-              <td>{a.company ?? a.slug}</td>
-              <td>{a.location ?? "—"}</td>
-              <td>
+              <td data-label="Company">{a.company ?? a.slug}</td>
+              <td data-label="Location">{a.location ?? "—"}</td>
+              <td data-label="Execution">
                 <Stamp tone={applyStateTone(a.applyState)}>{humanize(a.applyState)}</Stamp>
               </td>
-              <td>
+              <td data-label="Hiring">
                 {a.pipelineStatus ? (
                   <Stamp tone={pipelineTone(a.pipelineStatus)}>{humanize(a.pipelineStatus)}</Stamp>
                 ) : (
                   <span className="slug">not set</span>
                 )}
               </td>
-              <td className="num">
+              <td className="num" data-label="Applied">
                 {formatDate(a.submittedAt)}
                 {a.estimated && (
-                  <span className="est" title="date estimated from the job file's mtime">
+                  <span className="est" title="Date is estimated from when the job file was last updated">
                     estimated
                   </span>
                 )}
@@ -68,12 +69,23 @@ function ApplicationTable({ rows, onSelect }: { rows: Application[]; onSelect: (
   );
 }
 
-function NoApplications() {
+function NoApplications({ onNavigate }: { onNavigate?: (href: string) => void }) {
   return (
     <div className="rb-empty state">
       <span className="glyph" aria-hidden="true">∅</span>
       <p>No applications yet.</p>
-      <p>Ask in the chat: “Apply to the next one.”</p>
+      {onNavigate ? (
+        <div className="rb-form-actions">
+          <button type="button" className="btn primary" onClick={() => onNavigate("/discover")}>
+            Find jobs
+          </button>
+          <button type="button" className="btn" onClick={() => onNavigate("/queue")}>
+            Open shortlist
+          </button>
+        </div>
+      ) : (
+        <p>Find jobs and add roles to your shortlist to get started.</p>
+      )}
     </div>
   );
 }
@@ -113,6 +125,7 @@ export default function ApplicationList({
   onFromChange,
   onToChange,
   onSelect,
+  onNavigate,
 }: {
   applications: Application[];
   search: string;
@@ -126,6 +139,7 @@ export default function ApplicationList({
   onFromChange: (value: string) => void;
   onToChange: (value: string) => void;
   onSelect: (slug: string) => void;
+  onNavigate?: (href: string) => void;
 }) {
   const needle = search.trim().toLowerCase();
   const fromMs = from ? Date.parse(`${from}T00:00:00.000Z`) : null;
@@ -152,78 +166,80 @@ export default function ApplicationList({
     return true;
   });
 
-  return (
-    <div className="rb-surface">
-      <div className="rb-list-panel card">
-        <div className="rb-list-panel-head head">
-          <h2 className="rb-h-major">Applications</h2>
-          <p className="rb-section-note note">
-            {visible.length} of {applications.length} applications
-          </p>
-        </div>
-        <div className="rb-filter-bar toolbar">
-          <div className="rb-field field">
-            <label htmlFor="filter-search">Company or role</label>
-            <input
-              id="filter-search"
-              className="control search"
-              type="search"
-              placeholder="search…"
-              value={search}
-              onChange={(e) => onSearchChange(e.target.value)}
-            />
-          </div>
-          <div className="rb-field field">
-            <label htmlFor="filter-apply">Execution state</label>
-            <select id="filter-apply" className="control" value={applyState} onChange={(e) => onApplyStateChange(e.target.value)}>
-              <option value="active">Applying now</option><option value="waiting">Waiting to start</option><option value="attention">Needs you</option>
-              <option value="all">all</option>
-              {APPLY_STATES.map((s) => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-          </div>
-          <div className="rb-field field">
-            <label htmlFor="filter-status">Hiring stage</label>
-            <select id="filter-status" className="control" value={status} onChange={(e) => onStatusChange(e.target.value)}>
-              <option value="all">all</option>
-              <option value="none">— not set —</option>
-              {PIPELINE_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="rb-field field">
-            <label htmlFor="filter-from">Applied from</label>
-            <input
-              id="filter-from"
-              className="control"
-              type="date"
-              value={from}
-              onChange={(e) => onFromChange(e.target.value)}
-            />
-          </div>
-          <div className="rb-field field">
-            <label htmlFor="filter-to">Applied to</label>
-            <input id="filter-to" className="control" type="date" value={to} onChange={(e) => onToChange(e.target.value)} />
-          </div>
-        </div>
+  const emptyWorkspace = applications.length === 0;
 
-        {applications.length === 0 ? (
-          <NoApplications />
-        ) : visible.length === 0 ? (
-          <p className="rb-section-note note count" style={{ padding: "1rem 1.1rem" }}>No applications match these filters.</p>
+  return (
+    <div className="rb-surface rb-job-search-stack">
+      <div className="rb-list-panel card">
+        {!emptyWorkspace ? (
+          <>
+            <div className="rb-filter-bar toolbar">
+              <div className="rb-field field">
+                <label htmlFor="filter-search">Company or role</label>
+                <input
+                  id="filter-search"
+                  className="control search"
+                  type="search"
+                  placeholder="search…"
+                  value={search}
+                  onChange={(e) => onSearchChange(e.target.value)}
+                />
+              </div>
+              <div className="rb-field field">
+                <label htmlFor="filter-apply">Execution state</label>
+                <select id="filter-apply" className="control" value={applyState} onChange={(e) => onApplyStateChange(e.target.value)}>
+                  <option value="active">Applying now</option><option value="waiting">Waiting to start</option><option value="attention">Needs you</option>
+                  <option value="all">all</option>
+                  {APPLY_STATES.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="rb-field field">
+                <label htmlFor="filter-status">Hiring stage</label>
+                <select id="filter-status" className="control" value={status} onChange={(e) => onStatusChange(e.target.value)}>
+                  <option value="all">all</option>
+                  <option value="none">— not set —</option>
+                  {PIPELINE_STATUSES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="rb-field field">
+                <label htmlFor="filter-from">Applied from</label>
+                <input
+                  id="filter-from"
+                  className="control"
+                  type="date"
+                  value={from}
+                  onChange={(e) => onFromChange(e.target.value)}
+                />
+              </div>
+              <div className="rb-field field">
+                <label htmlFor="filter-to">Applied to</label>
+                <input id="filter-to" className="control" type="date" value={to} onChange={(e) => onToChange(e.target.value)} />
+              </div>
+            </div>
+
+            {visible.length === 0 ? (
+              <p className="rb-section-note note count" style={{ padding: "1rem 1.1rem" }}>No applications match these filters.</p>
+            ) : (
+              <div className="rb-list-panel-body">
+                <ApplicationTable rows={visible} onSelect={onSelect} />
+              </div>
+            )}
+          </>
         ) : (
-          <div className="rb-list-panel-body">
-            <ApplicationTable rows={visible} onSelect={onSelect} />
-          </div>
+          <NoApplications onNavigate={onNavigate} />
         )}
       </div>
-      <div className="rb-footnotes">
-        <p className="note">Estimated dates come from the job file's mtime, not a recorded submission time.</p>
-      </div>
+      {!emptyWorkspace ? (
+        <div className="rb-footnotes">
+          <p className="note">Dates marked as estimated are when the job was last updated, not a confirmed submission time.</p>
+        </div>
+      ) : null}
     </div>
   );
 }

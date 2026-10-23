@@ -1,0 +1,181 @@
+.rb-job-nav {
+  padding-top: 1.25rem;
+}
+
+.rb-job-nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.rb-job-nav a[aria-current="page"] {
+  font-weight: 700;
+  color: var(--stamp-accent-fg, #1c2f8f);
+}
+
+.rb-detail-prose {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.rb-company-target-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.rb-company-target-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius, 10px);
+  background: var(--surface);
+}
+
+.rb-company-target-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.rb-company-target-source {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.rb-company-add {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.rb-company-add .control {
+  min-height: 44px;
+}
+
+.rb-job-search-stack {
+  container-type: inline-size;
+  container-name: job-search;
+}
+
+@container job-search (max-width: 600px) {
+  .rb-job-search-stack .rb-record-list table,
+  .rb-job-search-stack .rb-record-list thead,
+  .rb-job-search-stack .rb-record-list tbody,
+  .rb-job-search-stack .rb-record-list th,
+  .rb-job-search-stack .rb-record-list td,
+  .rb-job-search-stack .rb-record-list tr {
+    display: block;
+    width: 100%;
+  }
+
+  .rb-job-search-stack .rb-record-list thead {
+    display: none;
+  }
+
+  .rb-job-search-stack .rb-record-list tr.row {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--rb-line, var(--line));
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="Role"] {
+    order: 1;
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="Company"] {
+    order: 2;
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="Job URL"] {
+    order: 3;
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="Added"],
+  .rb-job-search-stack .rb-record-list td[data-label="Applied"] {
+    order: 4;
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="Execution"],
+  .rb-job-search-stack .rb-record-list td[data-label="Hiring"] {
+    order: 5;
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="Overrides"] {
+    order: 6;
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="Actions"] {
+    order: 7;
+  }
+
+  .rb-job-search-stack .rb-record-list td[data-label="#"] {
+    order: 0;
+    margin-bottom: 6px;
+  }
+
+  .rb-job-search-stack .rb-record-list td,
+  .rb-job-search-stack .rb-record-list a,
+  .rb-job-search-stack .rb-record-list .co,
+  .rb-job-search-stack .rb-record-list .rb-record-title {
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  .rb-job-search-stack .rb-record-list td {
+    padding: 0;
+    border: 0;
+  }
+
+  .rb-job-search-stack .rb-record-list td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .rb-job-search-stack .rb-record-list td.rb-stack-skip-label::before {
+    display: none;
+  }
+
+  .rb-job-search-stack .rb-record-list td + td {
+    margin-top: 10px;
+  }
+
+  .rb-job-search-stack .rb-record-list .rb-record-title,
+  .rb-job-search-stack .rb-record-list .co,
+  .rb-job-search-stack .rb-record-list td.url a,
+  .rb-job-search-stack .rb-record-list td.url span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    word-break: normal;
+  }
+
+  .rb-job-search-stack .rb-record-list .row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .rb-job-search-stack .rb-record-list .row-btn {
+    min-height: 44px;
+  }
+}
