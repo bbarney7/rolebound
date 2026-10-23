@@ -1226,6 +1226,9 @@ export default function App() {
             chips={connectionReady ? ["Import my resume", "Add a job link", "Find new roles", "Apply to the next one"] : []}
             placeholder={composerPlaceholder}
             canSend={canSend}
+            overview={overview}
+            readiness={readiness}
+            onWorkspaceNavigate={workspaceNavigate}
           />
           <WorkspaceDrawer
             open={workspaceOpen}

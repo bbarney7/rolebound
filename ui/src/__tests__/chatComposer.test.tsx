@@ -154,6 +154,29 @@ describe("Composer send lifecycle", () => {
   });
 });
 
+describe("Composer suggestions", () => {
+  afterEach(() => cleanup());
+
+  it("collapses prompt chips after the first user message", async () => {
+    const user = userEvent.setup();
+    render(
+      <Composer
+        run={idleRun}
+        placeholder="Type"
+        chips={["Find new roles"]}
+        collapsePromptChips
+        canSend
+        error={null}
+        onSend={vi.fn().mockResolvedValue(true)}
+        onInterrupt={vi.fn().mockResolvedValue(undefined)}
+      />,
+    );
+    expect(screen.queryByRole("button", { name: "Find new roles" })).toBeNull();
+    await user.click(screen.getByRole("button", { name: "Suggestions" }));
+    expect(screen.getByRole("button", { name: "Find new roles" })).toBeTruthy();
+  });
+});
+
 describe("ChatPane Esc", () => {
   it("calls onInterrupt on Esc only while running", async () => {
     const onSend = vi.fn().mockResolvedValue(undefined);

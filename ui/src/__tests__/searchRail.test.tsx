@@ -1,8 +1,12 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import SearchRail, { searchRouteCounts } from "../chat/SearchRail";
+import SearchRail, {
+  SearchStatusCompact,
+  formatCompactSearchStatus,
+  searchRouteCounts,
+} from "../chat/SearchRail";
 import type { Overview, ReadinessPayload } from "../../shared/types";
 
 function overviewFixture(): Overview {
@@ -58,6 +62,34 @@ function readinessFixture(overrides: Partial<Record<string, boolean>> = {}): Rea
   };
 }
 
+describe("formatCompactSearchStatus", () => {
+  it("puts needs you first and omits zero counts", () => {
+    expect(
+      formatCompactSearchStatus({
+        found: 3,
+        shortlisted: 0,
+        applying: 2,
+        waiting: 0,
+        attention: 1,
+        sent: 0,
+      }),
+    ).toEqual({ label: "1 needs you · 3 found · 2 applying", needsYou: true });
+  });
+
+  it("shows empty copy when every count is zero", () => {
+    expect(
+      formatCompactSearchStatus({
+        found: 0,
+        shortlisted: 0,
+        applying: 0,
+        waiting: 0,
+        attention: 0,
+        sent: 0,
+      }),
+    ).toEqual({ label: "No jobs yet", needsYou: false });
+  });
+});
+
 describe("searchRouteCounts", () => {
   it("maps overview fields to the four route stops", () => {
     expect(searchRouteCounts(overviewFixture())).toEqual({
@@ -100,6 +132,19 @@ describe("SearchRail", () => {
       />,
     );
     expect(screen.getByRole("button", {name:"Review setup"})).toBeTruthy();
+  });
+
+  it("opens the search sheet and navigates from a route link", async () => {
+    const onNavigate = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <SearchStatusCompact overview={overviewFixture()} readiness={readinessFixture()} onNavigate={onNavigate} />,
+    );
+    const toggle = screen.getByRole("button", { name: /needs you/i });
+    await user.click(toggle);
+    const sheet = screen.getByRole("dialog", { name: "Your search" });
+    await user.click(within(sheet).getByRole("button", { name: "Found9" }));
+    expect(onNavigate).toHaveBeenCalledWith("/discover");
   });
 
   it("navigates to resumes when Resume is clicked", async () => {

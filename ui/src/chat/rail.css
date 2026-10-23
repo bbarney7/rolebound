@@ -199,3 +199,87 @@
     font-size: 34px;
   }
 }
+
+.rb-search-status-compact {
+  display: none;
+}
+
+@media (max-width: 1099px) {
+  .rb-search-status-compact {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-2);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .rb-search-status-compact--needs {
+    border-color: color-mix(in srgb, var(--needs) 55%, var(--line));
+    background: var(--needs-soft);
+    color: var(--ink);
+  }
+
+  .rb-search-status-compact:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.rb-search-status-sheet {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.rb-search-status-sheet::backdrop {
+  background: rgb(14 18 32 / 0.45);
+}
+
+.rb-search-status-sheet-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: min(85dvh, 640px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -12px 40px -20px rgb(22 27 46 / 0.35);
+}
+
+.rb-search-status-sheet-head {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 12px 0;
+  flex: none;
+}
+
+.rb-search-status-sheet-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.rb-search-status-sheet-body .rb-search-rail {
+  border-left: 0;
+  min-height: auto;
+  padding-top: 8px;
+}

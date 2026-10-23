@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState, type DragEvent } from "react";
 import type { ReactNode } from "react";
 import type { ConnectionList } from "../../shared/providers";
-import type { RunSummary, RunUiResponseBody } from "../../shared/types";
+import type { Overview, ReadinessPayload, RunSummary, RunUiResponseBody } from "../../shared/types";
+import { SearchStatusCompact } from "./SearchRail";
 import type { RunEntry } from "../useRun";
 import Transcript from "./Transcript";
 import Composer, { isRunning } from "./Composer";
@@ -41,6 +42,9 @@ export interface ChatPaneProps {
   onConnectionsChange?: (next: ConnectionList) => void | Promise<void>;
   /** Local notes rendered above the composer (e.g. model switch). */
   chatNotes?: RunEntry[];
+  overview?: Overview | null;
+  readiness?: ReadinessPayload | null;
+  onWorkspaceNavigate?: (href: string) => void;
 }
 
 export default function ChatPane({
@@ -59,7 +63,11 @@ export default function ChatPane({
   connections = null,
   onConnectionsChange,
   chatNotes = [],
+  overview = null,
+  readiness = null,
+  onWorkspaceNavigate,
 }: ChatPaneProps) {
+  const hasUserMessage = entries.some((entry) => entry.kind === "user");
   const [dropOverlay, setDropOverlay] = useState(false);
   const [droppedFiles, setDroppedFiles] = useState<{ files: File[]; id: number } | null>(null);
 
@@ -121,10 +129,14 @@ export default function ChatPane({
             ))}
           </div>
         ) : null}
+        {onWorkspaceNavigate ? (
+          <SearchStatusCompact overview={overview} readiness={readiness} onNavigate={onWorkspaceNavigate} />
+        ) : null}
         <Composer
           run={run}
           placeholder={placeholder}
           chips={chips}
+          collapsePromptChips={hasUserMessage}
           canSend={canSend}
           busy={busy}
           error={error}

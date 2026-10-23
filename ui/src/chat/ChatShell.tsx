@@ -78,16 +78,26 @@ export default function ChatShell({
 
         <div className="rb-chat-header-actions">
           {modelPill.kind === "needs" ? (
-            <span className="rb-model-pill rb-model-pill--needs" title={modelPill.label}>
+            <span
+              className="rb-model-pill rb-model-pill--needs"
+              title={modelPill.label}
+              aria-label={modelPill.label}
+            >
               <span className="rb-model-pill-dot" aria-hidden="true" />
-              <span className="rb-model-pill-text">{modelPill.label}</span>
+              <span className="rb-model-pill-text rb-model-pill-text--full">{modelPill.label}</span>
+              <span className="rb-model-pill-text rb-model-pill-text--short">{modelPill.label}</span>
             </span>
           ) : (
-            <span className="rb-model-pill rb-model-pill--ok" title={`${modelPill.provider}: ${modelPill.model}`}>
+            <span
+              className="rb-model-pill rb-model-pill--ok"
+              title={`${modelPill.provider}: ${modelPill.model}`}
+              aria-label={`AI ready. ${modelPill.provider}: ${modelPill.model}`}
+            >
               <span className="rb-model-pill-dot" aria-hidden="true" />
-              <span className="rb-model-pill-text">
+              <span className="rb-model-pill-text rb-model-pill-text--full">
                 <strong>{modelPill.provider}</strong> <span>{modelPill.model}</span>
               </span>
+              <span className="rb-model-pill-text rb-model-pill-text--short">AI ready</span>
             </span>
           )}
 

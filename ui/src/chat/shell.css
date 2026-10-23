@@ -374,7 +374,11 @@
   }
 }
 
-/* Phones: one header row. The model pill keeps its colored dot; its words stay for screen readers and the tooltip. */
+.rb-model-pill-text--short {
+  display: none;
+}
+
+/* Phones: one header row with a short visible model status label. */
 @media (max-width: 600px) {
   .rb-chat-header {
     flex-wrap: nowrap;
@@ -386,15 +390,23 @@
   }
 
   .rb-model-pill {
-    padding: 8px;
+    padding: 8px 10px;
+    gap: 6px;
   }
 
-  .rb-model-pill-text {
+  .rb-model-pill-text--full {
     position: absolute;
     width: 1px;
     height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .rb-model-pill-text--short {
+    display: inline;
+    font-size: 13px;
+    font-weight: 600;
     white-space: nowrap;
   }
 }

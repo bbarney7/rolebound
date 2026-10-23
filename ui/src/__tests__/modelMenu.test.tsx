@@ -59,8 +59,8 @@ describe("ModelMenu", () => {
         onConnectionsChange={async () => {}}
       />,
     );
-    expect(screen.getByRole("button", { name: /Same as applying/i })).toBeTruthy();
-    await user.click(screen.getByRole("button", { name: /Same as applying/i }));
+    expect(screen.getByRole("button", { name: /Model: gpt-5-chat-latest/i })).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: /Model: gpt-5-chat-latest/i }));
     expect(screen.getByRole("dialog", { name: "Chat model" })).toBeTruthy();
   });
 
@@ -73,7 +73,7 @@ describe("ModelMenu", () => {
     render(
       <ModelMenu connections={connections()} run={null} onConnectionsChange={onConnectionsChange} />,
     );
-    await user.click(screen.getByRole("button", { name: /Same as applying/i }));
+    await user.click(screen.getByRole("button", { name: /Model: gpt-5-chat-latest/i }));
     await user.selectOptions(screen.getByLabelText(/Chat connection/i), "chat-1");
     const chatModelInput = document.getElementById("rb-chat-model-id") as HTMLInputElement;
     await user.clear(chatModelInput);
@@ -109,7 +109,7 @@ describe("ModelMenu", () => {
         onConnectionsChange={async () => {}}
       />,
     );
-    const btn = screen.getByRole("button", { name: /Same as applying/i });
+    const btn = screen.getByRole("button", { name: /Model: gpt-5-chat-latest/i });
     expect((btn as HTMLButtonElement).disabled).toBe(true);
     expect(btn.getAttribute("title")).toBe("Wait for the reply to finish");
   });
