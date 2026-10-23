@@ -1,8 +1,7 @@
 import { useWorkspaceState, useUnsavedChanges } from "../WorkspaceDrafts";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { DiscoveryDetailPayload, DiscoveryListItem, TargetEntry, TargetSource, TargetsPayload } from "../../shared/discovery";
+import type { DiscoveryDetailPayload, DiscoveryListItem, TargetEntry, TargetsPayload } from "../../shared/discovery";
 import type { ReadinessBlocker } from "../../shared/types";
-import { TARGET_SOURCES } from "../../shared/discovery";
 import {
   dismissDiscovery,
   fetchDiscoveries,
@@ -13,6 +12,13 @@ import {
   updateTargets,
 } from "../api";
 import { startRun } from "../runs";
+import {
+  entriesToTargetText,
+  parseCompanyTargetInput,
+  parseTargetTextToEntries,
+  sourceLabel,
+} from "../parseCompanyTarget";
+import "../jobSearch.css";
 
 function scoreLabel(score: number | null): string {
   if (score == null) return "Unscored";
@@ -27,6 +33,14 @@ function formatDiscoverDate(iso: string | null): string {
   const t = Date.parse(iso);
   if (Number.isNaN(t)) return iso;
   return new Date(t).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+function listEntriesFromDraft(draft: string): TargetEntry[] {
+  try {
+    return parseTargetTextToEntries(draft);
+  } catch {
+    return [];
+  }
 }
 
 export default function DiscoverView({
@@ -48,6 +62,7 @@ export default function DiscoverView({
   discoverBlocker?: ReadinessBlocker | null;
   scoreBlocker?: ReadinessBlocker | null;
 }) {
+  const isCompaniesTab = tab === "companies";
   const [query, setQuery] = useState("");
   const [items, setItems] = useState<DiscoveryListItem[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
@@ -57,22 +72,35 @@ export default function DiscoverView({
   const [targets, setTargets] = useState<TargetsPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
-  const [targetsSaved,setTargetsSaved] = useState(false);
-  const [showTargets, setShowTargets] = useState(false);
+  const [targetsSaved, setTargetsSaved] = useState(false);
+  const [addCompanyInput, setAddCompanyInput] = useState("");
+  const [addCompanyError, setAddCompanyError] = useState<string | null>(null);
   const [targetDraft, setTargetDraft] = useWorkspaceState("company-targets", { value: "", baseline: "", revision: null as string | null, loaded: false });
   const draftTargets = targetDraft.value;
   const targetDirty = draftTargets !== targetDraft.baseline;
-  useUnsavedChanges("company-targets",targetDirty);
-  const setDraftTargets = (value: string) => { setTargetsSaved(false); setTargetDraft(old => ({...old,value})); };
-  async function openTargets() {
-    setShowTargets(true);
+  useUnsavedChanges("company-targets", targetDirty);
+  const setDraftTargets = (value: string) => {
+    setTargetsSaved(false);
+    setTargetDraft((old) => ({ ...old, value }));
+  };
+  const listedCompanies = useMemo(() => listEntriesFromDraft(draftTargets), [draftTargets]);
+
+  async function loadTargets() {
     try {
-      const payload = await fetchTargets(); setTargets(payload);
-      const value = payload.entries.map(entry => `${entry.source}:${entry.slug}`).join("\n");
-      setTargetDraft(old => old.loaded && old.value !== old.baseline ? old : {value,baseline:value,revision:payload.revision,loaded:true});
-    } catch(err) { setError(err instanceof Error ? err.message : String(err)); }
+      const payload = await fetchTargets();
+      setTargets(payload);
+      const value = entriesToTargetText(payload.entries);
+      setTargetDraft((old) =>
+        old.loaded && old.value !== old.baseline ? old : { value, baseline: value, revision: payload.revision, loaded: true },
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    }
   }
-  useEffect(() => { if (tab === "companies") void openTargets(); else setShowTargets(false); },[tab]);
+
+  useEffect(() => {
+    if (isCompaniesTab) void loadTargets();
+  }, [isCompaniesTab]);
 
   const selectedSlugRef = useRef<string | null>(null);
   const listRequestRef = useRef(0);
@@ -136,6 +164,7 @@ export default function DiscoverView({
   };
 
   useEffect(() => {
+    if (isCompaniesTab) return;
     const timer = window.setTimeout(() => {
       void loadList(query);
     }, query ? 250 : 0);
@@ -143,7 +172,7 @@ export default function DiscoverView({
       window.clearTimeout(timer);
       listRequestRef.current += 1;
     };
-  }, [query]);
+  }, [query, isCompaniesTab]);
 
   useEffect(() => {
     if (!selectedSlug) {
@@ -173,7 +202,7 @@ export default function DiscoverView({
     const slugAtStart = actionSlug ?? mutationSlug ?? selectedSlugRef.current;
     try {
       await action();
-      await loadList();
+      if (!isCompaniesTab) await loadList();
       if (slugAtStart && (label === "dismiss" || label === "restore")) {
         setSelectedSlug(slugAtStart);
         await refreshDetail(slugAtStart);
@@ -190,16 +219,128 @@ export default function DiscoverView({
     else window.history.pushState({}, "", "/queue");
   };
 
+  const goCompanies = () => {
+    if (onNavigate) onNavigate("/discover?tab=companies");
+    else window.history.pushState({}, "", "/discover?tab=companies");
+  };
+
+  function removeCompany(entry: TargetEntry) {
+    const next = listedCompanies.filter((row) => row.source !== entry.source || row.slug !== entry.slug);
+    setDraftTargets(entriesToTargetText(next));
+  }
+
+  function addCompany() {
+    const parsed = parseCompanyTargetInput(addCompanyInput);
+    if (!parsed.ok) {
+      setAddCompanyError(parsed.error);
+      return;
+    }
+    if (listedCompanies.some((row) => row.source === parsed.entry.source && row.slug === parsed.entry.slug)) {
+      setAddCompanyError(null);
+      setAddCompanyInput("");
+      return;
+    }
+    const next = [...listedCompanies, parsed.entry];
+    setDraftTargets(entriesToTargetText(next));
+    setAddCompanyInput("");
+    setAddCompanyError(null);
+  }
+
+  const sessionHint = <p className="rb-inline-hint">Finish or end the chat session to use this.</p>;
+
+  if (isCompaniesTab) {
+    return (
+      <div className="discover-layout rb-discover">
+        <header className="rb-discover-head">
+          <h1 className="rb-display-title">Companies to watch</h1>
+          <p className="rb-discover-lead">Rolebound searches these company job boards when you find new jobs.</p>
+        </header>
+
+        {error ? <div className="rb-inline-error" role="alert">{error}</div> : null}
+        {targetsSaved && <p className="rb-form-status" role="status">Companies saved.</p>}
+
+        {targets ? (
+          <section className="rb-company-settings" aria-label="Companies to watch">
+            <form onSubmit={(event) => event.preventDefault()}>
+              {listedCompanies.length === 0 ? (
+                <p className="rb-inline-empty">No companies yet. Add one below.</p>
+              ) : (
+                <ul className="rb-company-target-list">
+                  {listedCompanies.map((entry) => (
+                    <li key={`${entry.source}:${entry.slug}`} className="rb-company-target-row">
+                      <div>
+                        <span className="rb-company-target-name">{entry.slug}</span>
+                        <span className="rb-company-target-source">{sourceLabel(entry.source)}</span>
+                      </div>
+                      <button type="button" className="btn ghost" onClick={() => removeCompany(entry)}>
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="rb-company-add">
+                <label htmlFor="add-company">Add a company</label>
+                <input
+                  id="add-company"
+                  className="control"
+                  value={addCompanyInput}
+                  placeholder="Careers board link or greenhouse:acme"
+                  onChange={(event) => {
+                    setAddCompanyInput(event.target.value);
+                    setAddCompanyError(null);
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      addCompany();
+                    }
+                  }}
+                />
+                {addCompanyError ? <p className="rb-inline-error" role="alert">{addCompanyError}</p> : null}
+                <button type="button" className="btn" onClick={() => addCompany()}>
+                  Add
+                </button>
+              </div>
+
+              <details className="rb-company-text-edit">
+                <summary>Edit as text</summary>
+                <textarea aria-label="Companies as text" value={draftTargets} onChange={(event) => setDraftTargets(event.target.value)} rows={8} />
+              </details>
+
+              <p className="rb-hint" role="status">{targetDirty ? "Unsaved changes" : "Up to date"}</p>
+              <div className="dialog-actions">
+                <button type="button" className="btn primary" disabled={!!busy || !targetDirty} onClick={() => void runAction("targets", async () => {
+                  const entries = parseTargetTextToEntries(draftTargets);
+                  const saved = await updateTargets({ revision: targetDraft.revision, entries });
+                  setTargets(saved);
+                  const value = entriesToTargetText(entries);
+                  setTargetDraft((old) => ({ ...old, baseline: value, revision: saved.revision }));
+                  setTargetsSaved(true);
+                })}>
+                  {busy === "targets" ? "Saving…" : "Save companies"}
+                </button>
+              </div>
+            </form>
+          </section>
+        ) : (
+          <p className="rb-inline-empty">Loading companies…</p>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="discover-layout rb-discover">
       <header className="rb-discover-head">
-        <h1 className="rb-display-title">Opportunities</h1>
-        <p className="rb-discover-lead">Triage gathered roles, score fit, and promote into preparation.</p>
+        <h1 className="rb-display-title">Found jobs</h1>
+        <p className="rb-discover-lead">Jobs Rolebound found at the companies you watch. Add the good ones to your shortlist.</p>
       </header>
 
       <div className="rb-workbench-toolbar">
         <input
-          aria-label="Filter opportunities"
+          aria-label="Filter found jobs"
           placeholder="Filter by role, company, or location"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
@@ -212,9 +353,9 @@ export default function DiscoverView({
             disabled={runActive || !!busy || !discoverReady}
             onClick={() => void runAction("gather", () => startRun({ kind: "gather" }))}
           >
-            Gather now
+            Find jobs now
           </button>
-          {!discoverReady && discoverBlocker ? (
+          {!discoverReady && !runActive && discoverBlocker ? (
             <p className="rb-inline-hint">
               {discoverBlocker.message}
               {onNavigate ? (
@@ -230,9 +371,9 @@ export default function DiscoverView({
             disabled={runActive || !!busy || !scoreReady}
             onClick={() => void runAction("score", () => startRun({ kind: "score" }))}
           >
-            Score unscored
+            Score new jobs
           </button>
-          {!scoreReady && scoreBlocker ? (
+          {!scoreReady && !runActive && scoreBlocker ? (
             <p className="rb-inline-hint">
               {scoreBlocker.message}
               {onNavigate ? (
@@ -242,12 +383,9 @@ export default function DiscoverView({
               ) : null}
             </p>
           ) : null}
-          <button
-            type="button"
-            className="btn ghost"
-            onClick={() => void openTargets()}
-          >
-            Edit targets
+          {runActive ? sessionHint : null}
+          <button type="button" className="btn ghost" onClick={goCompanies}>
+            Companies to watch
           </button>
         </div>
       </div>
@@ -255,52 +393,10 @@ export default function DiscoverView({
       {error ? <div className="rb-inline-error" role="alert">{error}</div> : null}
       {targetsSaved && <p className="rb-form-status" role="status">Companies saved.</p>}
 
-      {showTargets && targets ? (
-        <section className="rb-company-settings" aria-label="Companies to watch">
-          <form onSubmit={(event) => event.preventDefault()}>
-            <h3>Companies to watch</h3>
-            <p className="rb-hint">One source:slug per line, for example greenhouse:acme. Supported sources: greenhouse, ashby, lever.</p>
-            <textarea aria-label="Targets" value={draftTargets} onChange={(event) => setDraftTargets(event.target.value)} rows={8} />
-            <p className="rb-hint" role="status">{targetDirty ? "Unsaved changes" : "Up to date"}</p>
-            <div className="dialog-actions">
-              <button type="button" className="btn ghost" onClick={() => setShowTargets(false)}>Cancel</button>
-              <button
-                type="button"
-                className="btn primary"
-                disabled={!!busy || !targetDirty}
-                onClick={() => void runAction("targets", async () => {
-                  const entries: TargetEntry[] = draftTargets
-                    .split("\n")
-                    .map((line) => line.trim())
-                    .filter(Boolean)
-                    .map((line) => {
-                      const colon = line.indexOf(":");
-                      if (colon < 0) throw new Error(`invalid target line: ${line}`);
-                      const source = line.slice(0, colon).trim();
-                      const slug = line.slice(colon + 1).trim();
-                      if (!TARGET_SOURCES.includes(source as TargetSource)) {
-                        throw new Error(`unsupported target source: ${source}`);
-                      }
-                      if (!slug) throw new Error(`missing slug in target line: ${line}`);
-                      return { source: source as TargetSource, slug };
-                    });
-                  const saved = await updateTargets({ revision: targetDraft.revision, entries });
-                  setTargets(saved);
-                  const value = entries.map(entry => `${entry.source}:${entry.slug}`).join("\n");
-                  setTargetDraft(old => ({...old,baseline:value,revision:saved.revision}));
-                  setTargetsSaved(true); setShowTargets(false);
-                })}
-              >
-                {busy === "targets" ? "Saving…" : "Save companies"}
-              </button>
-            </div>
-          </form>
-        </section>
-      ) : null}
-      <div className="rb-workbench" hidden={showTargets}>
-        <div className="rb-workbench-list" role="listbox" aria-label="Opportunities">
+      <div className="rb-workbench">
+        <div className="rb-workbench-list" role="listbox" aria-label="Found jobs">
           {items.length === 0 ? (
-            <p className="rb-inline-empty">No opportunities yet — run gather from your targets.</p>
+            <p className="rb-inline-empty">No found jobs yet — find jobs from the companies you watch.</p>
           ) : (
             items.map((item) => (
               <button
@@ -326,7 +422,7 @@ export default function DiscoverView({
           {detailReady && detail ? (
             <>
               <p className="rb-detail-kicker">
-                {(detail.source ?? "Unknown").toUpperCase()} · Discovered {formatDiscoverDate(detail.discoveredAt)}
+                {(detail.source ?? "Unknown").toUpperCase()} · Found {formatDiscoverDate(detail.discoveredAt)}
               </p>
               <h2 className="rb-detail-title">{detail.title ?? detail.slug}</h2>
               <p className="rb-detail-meta">{detail.company ?? "Company unavailable"} · {detail.location ?? "Location unspecified"}</p>
@@ -334,7 +430,7 @@ export default function DiscoverView({
                 {scoreLabel(detail.llmScore)}
                 {detail.llmReasoning ? ` — ${detail.llmReasoning}` : ""}
               </p>
-              {detail.duplicateOf ? <p className="note">Already in {detail.duplicateOf}.</p> : null}
+              {detail.duplicateOf ? <p className="note">Already on your shortlist as {detail.duplicateOf}.</p> : null}
               {busy ? <p className="note" aria-live="polite">Working… ({busy})</p> : null}
               <div className="rb-detail-actions">
                 <button
@@ -343,8 +439,9 @@ export default function DiscoverView({
                   disabled={!mutationSlug || !!busy || runActive || !!detail.duplicateOf || detail.dismissed}
                   onClick={() => mutationSlug && void runAction("promote", async () => { await promoteQueueItem({ slug: mutationSlug }); onPromoted(); }, mutationSlug)}
                 >
-                  Promote to queue
+                  Add to shortlist
                 </button>
+                {runActive ? sessionHint : null}
                 {!detail.dismissed ? (
                   <button type="button" className="btn ghost" disabled={!mutationSlug || !!busy} onClick={() => mutationSlug && void runAction("dismiss", () => dismissDiscovery(mutationSlug), mutationSlug)}>
                     Dismiss
@@ -361,10 +458,10 @@ export default function DiscoverView({
                   Next
                 </button>
                 <button type="button" className="text-link" onClick={goQueue}>
-                  Preparation →
+                  Shortlist →
                 </button>
               </div>
-              <pre className="rb-detail-body">{detail.descriptionExcerpt ?? detail.body}</pre>
+              <div className="rb-detail-prose">{detail.descriptionExcerpt ?? detail.body}</div>
             </>
           ) : detailError && selectedSlug ? (
             <div className="rb-detail-error">
@@ -374,14 +471,12 @@ export default function DiscoverView({
               </button>
             </div>
           ) : selectedSlug ? (
-            <p className="rb-inline-empty" aria-live="polite">Loading opportunity…</p>
+            <p className="rb-inline-empty" aria-live="polite">Loading job…</p>
           ) : (
-            <p className="rb-inline-empty">Select an opportunity to review details and promote.</p>
+            <p className="rb-inline-empty">Select a job to review details and add it to your shortlist.</p>
           )}
         </div>
       </div>
-
-
     </div>
   );
 }
