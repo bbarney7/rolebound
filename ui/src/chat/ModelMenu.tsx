@@ -1,7 +1,7 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { ConnectionList, ModelSelection } from "../../shared/providers";
 import { fetchModelCatalog, updateSelections } from "../settings";
-import { formatChatModelButtonLabel } from "./modelSelection";
+import { formatChatModelButtonHint, formatChatModelButtonLabel } from "./modelSelection";
 import { isRunning } from "./Composer";
 import type { RunSummary } from "../../shared/types";
 
@@ -39,6 +39,8 @@ export default function ModelMenu({ connections, run, onConnectionsChange }: Mod
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const disabled = isRunning(run);
 
@@ -54,28 +56,37 @@ export default function ModelMenu({ connections, run, onConnectionsChange }: Mod
     setAgentThinking(agent?.thinking ?? "");
   }, [connections, open]);
 
+  const closePopover = useCallback(() => {
+    setOpen(false);
+    triggerRef.current?.focus();
+  }, []);
+
   useEffect(() => {
     if (!open) return;
+    const focusTarget =
+      popoverRef.current?.querySelector<HTMLElement>("#rb-chat-model-conn, #rb-apply-model-conn") ??
+      popoverRef.current?.querySelector<HTMLElement>("input, select, button");
+    focusTarget?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
-        setOpen(false);
+        closePopover();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, closePopover]);
 
   useEffect(() => {
     if (!open) return;
     const onPointer = (e: MouseEvent) => {
       const root = rootRef.current;
       if (!root || root.contains(e.target as Node)) return;
-      setOpen(false);
+      closePopover();
     };
     window.addEventListener("mousedown", onPointer);
     return () => window.removeEventListener("mousedown", onPointer);
-  }, [open]);
+  }, [open, closePopover]);
 
   async function loadCatalog(kind: "chat" | "agent", connectionId: string) {
     if (!connectionId) {
@@ -110,6 +121,7 @@ export default function ModelMenu({ connections, run, onConnectionsChange }: Mod
   }, [open, agentConn]);
 
   const buttonLabel = formatChatModelButtonLabel(connections);
+  const buttonHint = formatChatModelButtonHint(connections);
 
   const onUse = async () => {
     if (!connections || disabled) return;
@@ -133,7 +145,7 @@ export default function ModelMenu({ connections, run, onConnectionsChange }: Mod
         scoring: connections.data.scoring,
         expectedRevision: connections.revision,
       });
-      setOpen(false);
+      closePopover();
       await onConnectionsChange(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -147,23 +159,24 @@ export default function ModelMenu({ connections, run, onConnectionsChange }: Mod
   return (
     <div className="rb-chat-model-menu" ref={rootRef}>
       <button
+        ref={triggerRef}
         type="button"
         className="rb-chat-model-btn"
         aria-expanded={open}
         aria-haspopup="dialog"
         disabled={disabled || !connections}
-        title={disabled ? "Wait for the reply to finish" : undefined}
+        title={disabled ? "Wait for the reply to finish" : buttonHint}
+        aria-label={buttonHint ? `${buttonLabel}. ${buttonHint}` : buttonLabel}
         onClick={() => setOpen((v) => !v)}
       >
         {buttonLabel}
       </button>
       {open ? (
         <div
+          ref={popoverRef}
           className="rb-chat-model-popover"
           role="dialog"
-          aria-modal="true"
           aria-labelledby={titleId}
-          aria-label="Chat model"
         >
           <p id={titleId} className="rb-chat-model-popover-title">Chat model</p>
           <div className="rb-chat-model-field">
