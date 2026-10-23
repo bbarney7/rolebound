@@ -16,6 +16,8 @@ export interface ComposerProps {
   run: RunSummary | null;
   placeholder: string;
   chips: string[];
+  /** After the first user message, quick prompts collapse behind a Suggestions control. */
+  collapsePromptChips?: boolean;
   canSend: boolean;
   /** a run API request is in flight */
   busy?: boolean;
@@ -38,6 +40,7 @@ export default function Composer({
   run,
   placeholder,
   chips,
+  collapsePromptChips = false,
   canSend,
   busy = false,
   error,
@@ -54,6 +57,7 @@ export default function Composer({
   const [isComposing, setIsComposing] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const running = isRunning(run);
@@ -182,6 +186,8 @@ export default function Composer({
   };
 
   const displayError = error ?? localError;
+  const showChipRow = chips.length > 0 && (!collapsePromptChips || suggestionsOpen);
+  const showSuggestionsToggle = chips.length > 0 && collapsePromptChips;
 
   return (
     <div
@@ -191,7 +197,17 @@ export default function Composer({
       onDragLeave={onDragLeave}
       onPaste={onPaste}
     >
-      {chips.length > 0 ? (
+      {showSuggestionsToggle ? (
+        <button
+          type="button"
+          className="rb-chat-suggestions-toggle"
+          aria-expanded={suggestionsOpen}
+          onClick={() => setSuggestionsOpen((open) => !open)}
+        >
+          Suggestions
+        </button>
+      ) : null}
+      {showChipRow ? (
         <div className="rb-chat-prompt-chips">
           {chips.map((chip) => (
             <button

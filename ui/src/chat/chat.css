@@ -117,7 +117,7 @@
 }
 
 .rb-chat-md-link:hover {
-  color: var(--accent-ink);
+  text-decoration-thickness: 2px;
 }
 
 @keyframes rb-chat-blink {
@@ -355,8 +355,13 @@
 }
 
 .rb-chat-job-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .rb-chat-job-score {
@@ -530,7 +535,7 @@
 }
 
 .rb-chat-btn--apply {
-  min-height: 40px;
+  min-height: 44px;
   font-size: 14px;
   border-color: var(--accent);
   color: var(--accent);
@@ -591,18 +596,18 @@
 .rb-chat-model-menu {
   position: relative;
   flex: none;
-  align-self: center;
+  align-self: flex-start;
 }
 
 .rb-chat-model-btn {
-  min-height: 32px;
-  padding: 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  font-size: 13px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  font-size: 14px;
   font-weight: 600;
-  color: var(--ink-2);
+  color: var(--ink);
   cursor: pointer;
   max-width: min(100%, 320px);
   overflow: hidden;
@@ -712,8 +717,26 @@
   gap: 8px;
 }
 
+.rb-chat-suggestions-toggle {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.rb-chat-suggestions-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .rb-chat-prompt-chip {
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: 999px;

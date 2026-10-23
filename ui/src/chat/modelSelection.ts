@@ -30,16 +30,22 @@ export function shortModelLabel(selection: ModelSelection): string {
   return effort ? `${selection.modelId} · ${effort}` : selection.modelId;
 }
 
-/** Short label for the composer model button (e.g. "GPT-5.5 · medium"). */
+/** Visible label for the composer model control (e.g. "Model: gpt-5-chat-latest"). */
 export function formatChatModelButtonLabel(connections: ConnectionList | null): string {
   if (!connections) return "Model";
   const agent = connections.data.agent;
   const chat = connections.data.chat;
   const effective = effectiveChatSelection(chat, agent);
   if (!effective) return "No model";
-  const short = shortModelLabel(effective);
-  if (!chat) return `Same as applying (${short})`;
-  return short;
+  return `Model: ${shortModelLabel(effective)}`;
+}
+
+/** Tooltip and accessible description when chat follows the applying model. */
+export function formatChatModelButtonHint(connections: ConnectionList | null): string | undefined {
+  if (!connections?.data.chat && connections?.data.agent) {
+    return "Same as applying model";
+  }
+  return undefined;
 }
 
 export function chatRunEligibleForContinue(run: RunSummary | null, hasTranscript: boolean): boolean {
