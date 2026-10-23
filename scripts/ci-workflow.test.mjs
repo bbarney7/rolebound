@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
-import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
@@ -31,20 +30,36 @@ test("ci.yml parses as YAML and wires fresh-user smoke on export and macOS verif
   assert.match(macStep.run, /fresh-user-smoke/);
 });
 
+// Walks the files rather than using `git grep`: CI also runs this inside the exported
+// tree, which has no .git directory.
+const SKIP_DIRS = new Set([
+  ".git", "node_modules", "Codex-info", "docs", "dist", "artifacts",
+  ".pi-jobs", ".browser-data", "uploads", "resumes", "screenshots",
+]);
+
+function* sourceFiles(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      if (!SKIP_DIRS.has(entry.name)) yield* sourceFiles(path.join(dir, entry.name));
+    } else if (entry.isFile()) {
+      yield path.join(dir, entry.name);
+    }
+  }
+}
+
 test("removed provider-login identifiers do not return outside historical documentation", () => {
-  const removed = [
+  const removed = new RegExp([
     ["cursor", "login"].join("-"),
     ["cursor", "import"].join("-"),
     ["Cursor", "Connection", "Auth"].join(""),
-  ].join("\\|");
-  const result = spawnSync(
-    "git",
-    ["grep", "-n", removed, "--", ".", ":!Codex-info", ":!docs"],
-    { cwd: repoRoot, encoding: "utf8" },
-  );
-  assert.equal(
-    result.status,
-    1,
-    `obsolete identifiers remain:\n${result.stdout}${result.stderr}`,
-  );
+  ].join("|"));
+  const hits = [];
+  for (const file of sourceFiles(repoRoot)) {
+    const text = fs.readFileSync(file, "utf8");
+    if (text.includes("\u0000")) continue;
+    text.split("\n").forEach((line, index) => {
+      if (removed.test(line)) hits.push(`${path.relative(repoRoot, file)}:${index + 1}: ${line.trim()}`);
+    });
+  }
+  assert.deepEqual(hits, [], `obsolete identifiers remain:\n${hits.join("\n")}`);
 });
