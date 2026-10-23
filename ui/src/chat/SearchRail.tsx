@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { Overview, ReadinessPayload, SetupStep } from "../../shared/types";
 import "./rail.css";
 
@@ -31,6 +32,121 @@ export function searchRouteCounts(overview: Overview | null): Record<RouteStop["
     attention: (byApply.paused_for_user ?? 0) + (byApply.blocked ?? 0),
     sent: byApply.submitted ?? 0,
   };
+}
+
+export type SearchRouteCounts = ReturnType<typeof searchRouteCounts>;
+
+const COMPACT_STATUS_STOPS: Array<{ id: keyof SearchRouteCounts; phrase: (n: number) => string }> = [
+  { id: "found", phrase: (n) => `${n} found` },
+  { id: "shortlisted", phrase: (n) => `${n} shortlisted` },
+  { id: "applying", phrase: (n) => `${n} applying` },
+  { id: "waiting", phrase: (n) => `${n} waiting` },
+  { id: "sent", phrase: (n) => `${n} sent` },
+];
+
+/** One-line pipeline summary for narrow layouts (Needs you first when non-zero). */
+export function formatCompactSearchStatus(counts: SearchRouteCounts): { label: string; needsYou: boolean } {
+  const parts: string[] = [];
+  if (counts.attention > 0) parts.push(`${counts.attention} needs you`);
+  for (const stop of COMPACT_STATUS_STOPS) {
+    const n = counts[stop.id];
+    if (n > 0) parts.push(stop.phrase(n));
+  }
+  if (parts.length === 0) return { label: "No jobs yet", needsYou: false };
+  return { label: parts.join(" · "), needsYou: counts.attention > 0 };
+}
+
+export function SearchStatusCompact({
+  overview,
+  readiness,
+  onNavigate,
+}: {
+  overview: Overview | null;
+  readiness: ReadinessPayload | null;
+  onNavigate: (href: string) => void;
+}) {
+  const counts = searchRouteCounts(overview);
+  const { label, needsYou } = formatCompactSearchStatus(counts);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeSheet = () => {
+    const dialog = dialogRef.current;
+    if (dialog) {
+      if (typeof dialog.close === "function" && dialog.open) dialog.close();
+      else dialog.removeAttribute("open");
+    }
+    openButtonRef.current?.focus();
+  };
+
+  const openSheet = () => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (typeof dialog.showModal === "function") {
+      if (!dialog.open) dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+    dialog.querySelector<HTMLButtonElement>('[data-rb-search-sheet-close]')?.focus();
+  };
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const onClose = () => openButtonRef.current?.focus();
+    dialog.addEventListener("close", onClose);
+    return () => dialog.removeEventListener("close", onClose);
+  }, []);
+
+  const navigateFromSheet = (href: string) => {
+    onNavigate(href);
+    closeSheet();
+  };
+
+  return (
+    <>
+      <button
+        ref={openButtonRef}
+        type="button"
+        className={`rb-search-status-compact${needsYou ? " rb-search-status-compact--needs" : ""}`}
+        onClick={openSheet}
+        aria-haspopup="dialog"
+      >
+        {label}
+      </button>
+      <dialog
+        ref={dialogRef}
+        className="rb-search-status-sheet"
+        aria-label="Your search"
+        onCancel={(e) => {
+          e.preventDefault();
+          closeSheet();
+        }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) closeSheet();
+        }}
+      >
+        <div className="rb-search-status-sheet-panel">
+          <div className="rb-search-status-sheet-head">
+            <button
+              type="button"
+              className="rb-chat-btn rb-chat-btn--icon"
+              data-rb-search-sheet-close
+              aria-label="Close search status"
+              onClick={closeSheet}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </button>
+          </div>
+          <div className="rb-search-status-sheet-body">
+            <SearchRail overview={overview} readiness={readiness} onNavigate={navigateFromSheet} />
+          </div>
+        </div>
+      </dialog>
+    </>
+  );
 }
 
 /**
