@@ -12,10 +12,13 @@ import {
   type ProfileMutationResult,
   type ProfilePayload,
   type ProfileSectionId,
+  type ProfileResumeRegionRuleView,
+  type ResumeFile,
   type ResumeReachability,
   type ResumesPayload,
   type ResumeUploadResult,
 } from "../shared/types";
+import { PROFILE_PLACEHOLDER_CATALOG } from "../shared/profilePlaceholders";
 import type { Tone } from "./Stamp";
 import { httpFetch as fetch } from "./http";
 
@@ -306,10 +309,92 @@ export function changedBullets(
     const key = bulletKey(id, bullet.key);
     if (!Object.prototype.hasOwnProperty.call(drafts, key)) continue;
     const draft = drafts[key];
-    if (draft === (bullet.value ?? "")) continue;
+    const stored = bullet.value ?? "";
+    if (draft === stored) continue;
+    if (isBulletTemplatePlaceholder(stored) && draft === "") continue;
     changed[bullet.key] = draft === "" ? null : draft;
   }
   return changed;
+}
+
+// ── Template placeholders in bullet fields ──────────────────────────────────
+
+function normalizeBulletText(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+const CATALOG_PLACEHOLDER_TOKENS = new Set(
+  PROFILE_PLACEHOLDER_CATALOG.map((row) => normalizeBulletText(row.token)),
+);
+
+/** Stored profile text that should render as an empty field with a hint. */
+export function isBulletTemplatePlaceholder(value: string): boolean {
+  const v = normalizeBulletText(value);
+  if (!v) return false;
+  if (/^\*\([\s\S]*\)\*$/.test(v)) return true;
+  return CATALOG_PLACEHOLDER_TOKENS.has(v);
+}
+
+/** Input `placeholder` text for a stored template value. */
+export function bulletPlaceholderHint(value: string): string {
+  const v = value.trim();
+  const italic = v.match(/^\*\(([\s\S]*)\)\*$/);
+  if (italic) return italic[1].replace(/`/g, "").trim();
+  const normalized = normalizeBulletText(v);
+  if (normalized === "<FILL IN>") return "Required";
+  const row = PROFILE_PLACEHOLDER_CATALOG.find(
+    (entry) => normalizeBulletText(entry.token) === normalized,
+  );
+  if (!row) return "";
+  const inner = row.token.replace(/^<|>$/g, "").trim();
+  return inner === "FILL IN" ? "Required" : inner;
+}
+
+export function bulletFieldDisplayValue(stored: string): string {
+  return isBulletTemplatePlaceholder(stored) ? "" : stored;
+}
+
+function formatLocationTerms(terms: string[]): string {
+  if (terms.length === 0) return "these locations";
+  if (terms.length === 1) return terms[0];
+  if (terms.length === 2) return `${terms[0]} or ${terms[1]}`;
+  return `${terms.slice(0, -1).join(", ")} or ${terms[terms.length - 1]}`;
+}
+
+/** Plain sentence for a file row on the Resumes tab. */
+export function resumeFileUsageSentence(
+  file: Pick<ResumeFile, "name" | "reachability" | "key">,
+  regionRules: readonly ProfileResumeRegionRuleView[],
+): string {
+  if (!file.name.toLowerCase().endsWith(".pdf")) {
+    return "Only PDFs can be sent with applications";
+  }
+  switch (file.reachability) {
+    case "default":
+      return "Used when no location-specific resume applies";
+    case "override":
+      return "Used for every application";
+    case "shadowed":
+      return "Not used while one resume is set for all jobs";
+    case "region": {
+      const rule = regionRules.find((r) => `${r.key}.pdf` === file.name || r.key === file.key);
+      const terms = rule ? formatLocationTerms(rule.terms) : file.key;
+      return `Used for jobs in ${terms}`;
+    }
+    case "orphan":
+      return "Not used yet — no location rule points to it";
+  }
+}
+
+/** Plain sentence for a region rule inside the advanced disclosure. */
+export function resumeRegionRuleSentence(
+  rule: ProfileResumeRegionRuleView,
+  hasFile: boolean,
+): string {
+  const terms = formatLocationTerms(rule.terms);
+  const file = `${rule.key}.pdf`;
+  if (hasFile) return `Jobs in ${terms} use ${file}.`;
+  return `Jobs in ${terms} use ${file} — no file uploaded yet.`;
 }
 
 // ── Tones and labels ────────────────────────────────────────────────────────
