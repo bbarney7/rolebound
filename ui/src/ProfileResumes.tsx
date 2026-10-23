@@ -1,37 +1,28 @@
 import { useRef, useState } from "react";
 import type { ProfileResumeView, ResumesPayload } from "../shared/types";
-import { reachabilityLabel, reachabilityNote, reachabilityTone } from "./profile";
-import Stamp from "./Stamp";
+import { resumeFileUsageSentence, resumeRegionRuleSentence } from "./profile";
+import "./profileResumes.css";
 import "./surfaces.css";
 
-/**
- * The resume library shows the exact resolver state and provides upload,
- * default assignment, global override, and region-rule editing controls.
- *
- * What it does deliver is the half of the objective that matters first: which
- * of these files the agent can actually reach. `resolveResumePath`
- * (`.pi/extensions/job-applier.ts:79-89`) is the only code that ever picks a
- * resume, and on real data most of the directory is unreachable — which stays
- * invisible until something says so.
- *
- * `resume` is null when `## Resume` is absent from profile.md. ProfileView has
- * already rendered that section's empty state above this component, so the
- * override card simply does not appear; the files on disk are still worth
- * listing, which is why the tab is not replaced wholesale.
- */
-
-/** Render as UTC, like every other date in this app. */
-function formatDate(iso: string | null): string {
+function formatDateShort(iso: string | null): string {
   if (!iso) return "—";
   const t = Date.parse(iso);
   if (Number.isNaN(t)) return iso;
-  return new Date(t).toISOString().slice(0, 10);
+  return new Date(t).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
 function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024 * 1024) {
+    const kb = bytes / 1024;
+    return kb < 0.1 ? "< 0.1 KB" : `${kb < 10 ? kb.toFixed(1) : Math.round(kb)} KB`;
+  }
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function overrideFileName(resume: ProfileResumeView | null): string | null {
+  if (!resume?.overrideResolved) return null;
+  const parts = resume.overrideResolved.split(/[/\\]/);
+  return parts[parts.length - 1] || resume.overridePath;
 }
 
 export default function ProfileResumes({
@@ -39,19 +30,28 @@ export default function ProfileResumes({
   resume,
   hasRegionRules,
   onUploaded,
-  onAssign, regionMarkdown, regionDirty, onRegionChange, onRegionSave, regionSaving,
+  onAssign,
+  regionMarkdown,
+  regionDirty,
+  onRegionChange,
+  onRegionSave,
+  regionSaving,
 }: {
   resumes: ResumesPayload | null;
   resume: ProfileResumeView | null;
-  /** From the raw-text locator: is `### Resume region rules` on disk at all? */
   hasRegionRules: boolean;
   onUploaded?: (file: File, replace?: boolean) => Promise<void>;
   onAssign: (filename: string, mode: "default" | "override", replace?: boolean) => Promise<void>;
-  regionMarkdown: string; regionDirty: boolean; onRegionChange: (value: string) => void; onRegionSave: () => void; regionSaving: boolean;
+  regionMarkdown: string;
+  regionDirty: boolean;
+  onRegionChange: (value: string) => void;
+  onRegionSave: () => void;
+  regionSaving: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+
   if (resumes === null) {
     return (
       <div className="state">
@@ -62,222 +62,195 @@ export default function ProfileResumes({
 
   const regionRules = resume?.regionRules ?? [];
   const gapKeys = new Set(resumes.ruleGaps.map((g) => g.key));
+  const gapCount = resumes.ruleGaps.length;
+  const advancedSummary =
+    gapCount > 0
+      ? `Location-specific resumes (advanced) — ${gapCount} location${gapCount === 1 ? "" : "s"} ${gapCount === 1 ? "has" : "have"} no resume yet`
+      : "Location-specific resumes (advanced)";
+
+  async function handleUploadChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    payload: ResumesPayload,
+  ) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const exists = payload.files.some((item) => item.name === file.name);
+    if (exists && !window.confirm(`${file.name} already exists. Replace it?`)) {
+      e.target.value = "";
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+    try {
+      await onUploaded?.(file, exists);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  }
+
+  const overrideName = overrideFileName(resume);
 
   return (
-    <div className="rb-surface rb-workspace">
-      {resume !== null && (
-        <div className="rb-list-panel card">
-          <div className="head">
-            <h2 className="rb-h-major">Resume path override</h2>
-            {resumes.overrideActive ? (
-              <Stamp tone="warn">override set</Stamp>
-            ) : (
-              <Stamp tone="neutral">no override</Stamp>
-            )}
-          </div>
-          {resumes.overrideActive ? (
-            <>
-              <p className="note count">
-                {/*
-                  The precedence rule, stated the way the source states it. An
-                  override wins for EVERY application, so every other .pdf below
-                  is shadowed — but a non-PDF stays an orphan, because
-                  `resolveResumePath` only ever builds `resumes/<key>.pdf`
-                  (`job-applier.ts:87`). "Everything below is shadowed" would
-                  imply that clearing the override brings a .docx into use,
-                  which is false.
-                */}
-                Every application uses this one file while the override is set. Every other{" "}
-                <span className="mono">.pdf</span> below is shadowed by it; a file with any other
-                extension stays an orphan, because the agent only ever builds{" "}
-                <span className="mono">resumes/&lt;key&gt;.pdf</span>.
-              </p>
-              <div className="table-scroll">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Declared path</th>
-                      <th>Resolves to</th>
-                      <th>On disk</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="mono">{resume.overridePath ?? "—"}</td>
-                      <td className="mono">{resume.overrideResolved ?? "—"}</td>
-                      <td>
-                        {resumes.overrideExists === null ? (
-                          <span className="note">—</span>
-                        ) : resumes.overrideExists ? (
-                          <Stamp tone="good">found</Stamp>
-                        ) : (
-                          <Stamp tone="crit">missing</Stamp>
-                        )}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              {resumes.overrideExists === false && (
-                <p className="note count crit">
-                  The override names a file that is not there. The agent attaches nothing rather
-                  than falling back — the fallback only applies when there is no override at all.
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="note count">
-              No <span className="mono">- **Resume path:**</span> bullet is active under{" "}
-              <span className="mono">## Resume</span>, so the agent uses the per-region lookup
-              below and falls back to <span className="mono">resumes/default.pdf</span>.
-            </p>
-          )}
+    <div className="rb-surface rb-workspace rb-profile-resumes">
+      <div className="rb-resumes-header">
+        <h2 className="rb-h-major">Your resumes</h2>
+        {onUploaded && (
+          <>
+            <input
+              ref={inputRef}
+              type="file"
+              accept="application/pdf,.pdf"
+              hidden
+              onChange={(e) => void handleUploadChange(e, resumes)}
+            />
+            <button
+              type="button"
+              className="btn primary"
+              disabled={uploading}
+              onClick={() => inputRef.current?.click()}
+            >
+              {uploading ? "Uploading…" : "Upload PDF"}
+            </button>
+          </>
+        )}
+      </div>
+
+      {uploadError && <p className="note crit" style={{ margin: "0 var(--space-inset)" }}>{uploadError}</p>}
+
+      {!resumes.directoryExists ? (
+        <div className="state">
+          <span className="glyph" aria-hidden="true">∅</span>
+          <p>No resume folder yet. Upload a PDF to get started.</p>
+          <p>Rolebound needs a default resume before it can attach one to applications.</p>
         </div>
+      ) : resumes.files.length === 0 ? (
+        <div className="state">
+          <span className="glyph" aria-hidden="true">∅</span>
+          <p>No resumes uploaded yet.</p>
+        </div>
+      ) : (
+        <ul className="rb-resume-file-list">
+          {resumes.files.map((f) => (
+            <li key={f.name} className="rb-resume-file-row">
+              <div className="rb-resume-file-name" title={f.name}>
+                {f.name}
+                {f.reachability === "default" && (
+                  <span className="rb-resume-default-label">Default</span>
+                )}
+              </div>
+              <div className="rb-resume-file-meta">
+                <span>{formatDateShort(f.modifiedAt)}</span>
+                <span>{formatBytes(f.bytes)}</span>
+              </div>
+              <p className="rb-resume-file-note">{resumeFileUsageSentence(f, regionRules)}</p>
+              <div className="rb-resume-file-actions">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => void onAssign(f.name, "override")}
+                >
+                  Use for all jobs
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() =>
+                    void onAssign(
+                      f.name,
+                      "default",
+                      resumes.files.some((x) => x.name === "default.pdf") &&
+                        window.confirm("Replace default.pdf?"),
+                    )
+                  }
+                >
+                  Make default
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
 
-      <div className="rb-list-panel card">
-        <div className="rb-list-panel-head head">
-          <h2 className="rb-h-major">Files in resumes/</h2>
-          {onUploaded && <><input ref={inputRef} type="file" accept="application/pdf,.pdf" hidden onChange={async (e) => { const file = e.target.files?.[0]; if (!file) return; const exists = resumes.files.some((item) => item.name === file.name); if (exists && !window.confirm(`${file.name} already exists. Replace it?`)) { e.target.value = ""; return; } setUploading(true); setUploadError(null); try { await onUploaded(file, exists); } catch (err) { setUploadError(err instanceof Error ? err.message : String(err)); } finally { setUploading(false); e.target.value = ""; } }} /><button type="button" className="btn primary" disabled={uploading} onClick={() => inputRef.current?.click()}>{uploading ? "Uploading…" : "Upload PDF"}</button></>}
-          <p className="note count">
-            {resumes.files.length} {resumes.files.length === 1 ? "file" : "files"}
-          </p>
-        </div>
-        {uploadError && <p className="note crit">{uploadError}</p>}
-        {!resumes.directoryExists ? (
-          <div className="state">
-            <span className="glyph" aria-hidden="true">
-              ∅
-            </span>
-            <p>
-              There is no <span className="mono">resumes/</span> directory in this workspace.
-            </p>
-            <p>
-              The agent looks for <span className="mono">resumes/default.pdf</span> and attaches
-              nothing when it is absent.
-            </p>
-          </div>
-        ) : resumes.files.length === 0 ? (
-          <div className="state">
-            <span className="glyph" aria-hidden="true">
-              ∅
-            </span>
-            <p>
-              The <span className="mono">resumes/</span> directory is empty.
-            </p>
-          </div>
-        ) : (
-          <div className="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>File</th>
-                  <th className="num">Size</th>
-                  <th className="num">Modified</th>
-                  <th>Reachability</th>
-                  <th>What that means</th>
-                  <th>Assign</th>
-                </tr>
-              </thead>
-              <tbody>
-                {resumes.files.map((f) => (
-                  <tr key={f.name}>
-                    <td className="mono">{f.name}</td>
-                    <td className="num">{formatBytes(f.bytes)}</td>
-                    <td className="num">{formatDate(f.modifiedAt)}</td>
-                    <td>
-                      <Stamp tone={reachabilityTone(f.reachability)}>
-                        {reachabilityLabel(f.reachability)}
-                      </Stamp>
-                    </td>
-                    <td className="note">{reachabilityNote(f.reachability)}</td>
-                    <td><button type="button" className="btn" onClick={() => void onAssign(f.name, "override")}>Use for all</button><button type="button" className="btn" onClick={() => void onAssign(f.name, "default", resumes.files.some((x) => x.name === "default.pdf") && window.confirm("Replace default.pdf?"))}>Make default</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      <details className="rb-advanced rb-resumes-advanced">
+        <summary>{advancedSummary}</summary>
+
+        {resume !== null && (
+          <div>
+            <h3 className="rb-h-minor">One resume for every job</h3>
+            {resumes.overrideActive ? (
+              <>
+                <p className="note">
+                  Every application uses {overrideName ?? "the file you chose"} until you turn this
+                  off. Other PDFs here are ignored while this is on.
+                </p>
+                {resumes.overrideExists === false && (
+                  <p className="note crit">
+                    That file is missing. Rolebound will not attach a resume until you upload it or
+                    clear this setting.
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="note">
+                Rolebound picks a resume from this list using the job&apos;s location. When nothing
+                else matches, it uses default.pdf.
+              </p>
+            )}
           </div>
         )}
-      </div>
 
-      <div className="rb-section section card">
-        <div className="rb-section-head head">
-          <h2 className="rb-h-major">Region rules</h2>
-          {resumes.ruleGaps.length > 0 && (
-            <Stamp tone="warn">
-              {resumes.ruleGaps.length} missing {resumes.ruleGaps.length === 1 ? "file" : "files"}
-            </Stamp>
+        <div>
+          <h3 className="rb-h-minor">Location rules</h3>
+          {!hasRegionRules ? (
+            <p className="note">
+              You have not set up location-specific resumes. Every application uses default.pdf.
+            </p>
+          ) : regionRules.length === 0 ? (
+            <p className="note">
+              Your location rules are empty or incomplete. Every application uses default.pdf until
+              you add valid rows.
+            </p>
+          ) : (
+            <ul className="rb-resume-region-rules">
+              {regionRules.map((rule) => (
+                <li key={rule.key}>
+                  {resumeRegionRuleSentence(rule, !gapKeys.has(rule.key))}
+                </li>
+              ))}
+            </ul>
+          )}
+          {gapCount > 0 && (
+            <p className="note">
+              When a location has no matching file, Rolebound falls back to default.pdf without
+              asking you.
+            </p>
           )}
         </div>
-        {!hasRegionRules ? (
-          // The absent-section state names the fallback
-          // and offers no "add this section" control (Q3). Inserting the
-          // template's table verbatim would add its denver/chicago example rows
-          // and change which resume the agent picks, in a ticket that gives no
-          // way to edit or remove them. Add is offered exactly where edit is.
-          <div className="state">
-            <span className="glyph" aria-hidden="true">
-              ∅
-            </span>
-            <p>
-              This profile has no <span className="mono">### Resume region rules</span> table.
-            </p>
-            <p>
-              No location maps to a region resume, so every application uses{" "}
-              <span className="mono">resumes/default.pdf</span>.
-            </p>
-          </div>
-        ) : regionRules.length === 0 ? (
-          <p className="note count">
-            The table is on disk but has no usable rows — a row needs a key and at least one match
-            term. Every application falls back to <span className="mono">resumes/default.pdf</span>.
-          </p>
-        ) : (
-          <div className="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Key</th>
-                  <th>Match terms</th>
-                  <th>Expected file</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {regionRules.map((rule) => (
-                  <tr key={rule.key}>
-                    <td className="mono">{rule.key}</td>
-                    <td>{rule.terms.join(", ")}</td>
-                    <td className="mono">{`resumes/${rule.key}.pdf`}</td>
-                    <td>
-                      {gapKeys.has(rule.key) ? (
-                        <Stamp tone="warn">no file</Stamp>
-                      ) : (
-                        <Stamp tone="good">on disk</Stamp>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-        <form className="rb-profile-form rb-settings-form" onSubmit={(e) => { e.preventDefault(); onRegionSave(); }}><div className="field"><label htmlFor="resume-region-rules">Region rules Markdown</label><textarea id="resume-region-rules" className="control tall wide" value={regionMarkdown} onChange={(e) => onRegionChange(e.target.value)} /></div><button className="btn primary" disabled={!regionDirty || regionSaving}>{regionSaving ? "Saving…" : "Save region rules"}</button></form>
-        {resumes.ruleGaps.length > 0 && (
-          <p className="note count">
-            A rule with no file is not an error the agent reports: it falls back to{" "}
-            <span className="mono">resumes/default.pdf</span> silently (
-            <span className="mono">job-applier.ts:89</span>), so a posting that matched this region
-            is applied to with the generic resume.
-          </p>
-        )}
-      </div>
 
-      <p className="note">
-        Read-only here. Uploading a resume, setting the override and editing the region rules
-        belong to the <span className="mono">resume-library-addresses</span> ticket, which owns the{" "}
-        <span className="mono">resumes/</span> directory.
-      </p>
+        <form
+          className="rb-profile-form rb-settings-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onRegionSave();
+          }}
+        >
+          <div className="field">
+            <label htmlFor="resume-region-rules">Edit location rules</label>
+            <textarea
+              id="resume-region-rules"
+              className="control tall wide"
+              value={regionMarkdown}
+              onChange={(e) => onRegionChange(e.target.value)}
+            />
+          </div>
+          <button className="btn primary" type="submit" disabled={!regionDirty || regionSaving}>
+            {regionSaving ? "Saving…" : "Save location rules"}
+          </button>
+        </form>
+      </details>
     </div>
   );
 }
