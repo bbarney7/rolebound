@@ -13,8 +13,8 @@ import {
   resetWorkspace,
   seedQueueApply,
   startQueueApply,
-  submitUiRequestInput,
   waitForDiscovery,
+  submitDemoCodeAndExpectReceipt,
 } from "./test-helpers";
 
 function isFullVisualGate(projectName: string) {
@@ -89,8 +89,7 @@ test.describe("T19 visual gate", () => {
     await startQueueApply(page);
     await captureSurface(page, project, "run-pending");
 
-    await submitUiRequestInput(page, "Demo verification code", "12345678");
-    await expect(page.getByText(/Demo receipt written/i)).toBeVisible({ timeout: 20_000 });
+    await submitDemoCodeAndExpectReceipt(page);
 
     await page.goto("/applications/e2e-engineer");
     await expect(page.getByText(/Receipt evidence/i)).toBeVisible();

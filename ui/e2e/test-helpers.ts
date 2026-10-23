@@ -63,8 +63,11 @@ export async function waitForDiscovery(page: Page, pattern: RegExp) {
 
 export async function selectDiscovery(page: Page, pattern: RegExp) {
   await waitForDiscovery(page, pattern);
-  await discoveryOption(page, pattern).click();
-  await expect(page.getByRole("heading", { name: pattern })).toBeVisible();
+  // A list refresh can re-render the option under the click on slow runners; retry until the detail opens.
+  await expect(async () => {
+    await discoveryOption(page, pattern).click();
+    await expect(page.getByRole("heading", { name: pattern })).toBeVisible({ timeout: 2_000 });
+  }).toPass({ timeout: 15_000 });
   await expect(page.getByRole("button", { name: "Promote to queue" })).toBeEnabled();
 }
 
@@ -337,4 +340,15 @@ function uiRequestCard(page: Page, title: string | RegExp) {
   return page.locator(".rb-chat-ui-request:not(.rb-chat-ui-request--resolved)").filter({
     has: page.locator(".rb-chat-ui-title", { hasText: title }),
   });
+}
+
+/**
+ * Enters the demo verification code and expects exactly one new receipt notice. Specs share one
+ * demo server, so the chat may already show receipts from earlier runs.
+ */
+export async function submitDemoCodeAndExpectReceipt(page: Page) {
+  const receipts = page.getByText(/Demo receipt written/i);
+  const before = await receipts.count();
+  await submitUiRequestInput(page, "Demo verification code", "12345678");
+  await expect(receipts).toHaveCount(before + 1, { timeout: 20_000 });
 }
