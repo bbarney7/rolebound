@@ -1,7 +1,14 @@
 import FormSaveBar from "./components/FormSaveBar";
 import { useState } from "react";
 import type { ProfileBullet, ProfileEditableSectionId } from "../shared/types";
-import { bulletKey, sectionLabel, type DraftKey } from "./profile";
+import {
+  bulletFieldDisplayValue,
+  bulletKey,
+  bulletPlaceholderHint,
+  isBulletTemplatePlaceholder,
+  sectionLabel,
+  type DraftKey,
+} from "./profile";
 import Stamp from "./Stamp";
 import "./surfaces.css";
 
@@ -73,6 +80,10 @@ function FieldInput({
   onChange: (key: string, value: string) => void;
 }) {
   const domId = controlId(id, bullet.key);
+  const stored = bullet.value ?? "";
+  const showAsPlaceholder = isBulletTemplatePlaceholder(stored) && value === stored;
+  const displayValue = showAsPlaceholder ? bulletFieldDisplayValue(stored) : value;
+  const placeholder = showAsPlaceholder ? bulletPlaceholderHint(stored) : undefined;
   return (
     <div className="rb-profile-field">
       <label htmlFor={domId}>{bullet.label}</label>
@@ -81,7 +92,8 @@ function FieldInput({
         className="control"
         type={/email/i.test(bullet.key) ? "email" : /phone/i.test(bullet.key) ? "tel" : /linkedin|github|portfolio|website|url/i.test(bullet.key) ? "url" : "text"}
         autoComplete={/email/i.test(bullet.key) ? "email" : /phone/i.test(bullet.key) ? "tel" : /first.*name/i.test(bullet.key) ? "given-name" : /last.*name/i.test(bullet.key) ? "family-name" : /full.*name|^name$/i.test(bullet.key) ? "name" : "off"}
-        value={value}
+        value={displayValue}
+        placeholder={placeholder}
         onChange={(e) => onChange(bullet.key, e.target.value)}
         {...(issue ? { "aria-invalid": true as const, "aria-describedby": `${domId}-error` } : {})}
       />
@@ -130,9 +142,16 @@ export default function ProfileBulletForm({
     return Object.prototype.hasOwnProperty.call(drafts, k) ? drafts[k] : (b.value ?? "");
   };
 
+  const issueValueOf = (b: ProfileBullet): string => {
+    const raw = valueOf(b);
+    const stored = b.value ?? "";
+    if (isBulletTemplatePlaceholder(stored) && raw === stored) return "";
+    return raw;
+  };
+
   const issues = new Map<string, string>();
   for (const b of bullets) {
-    const issue = bulletIssue(valueOf(b));
+    const issue = bulletIssue(issueValueOf(b));
     if (issue !== null) issues.set(b.key, issue);
   }
   const blocked = issues.size > 0;
@@ -268,11 +287,11 @@ export default function ProfileBulletForm({
         <details className="rb-tech-details">
           <summary>How parsing works</summary>
           <p>
-            Values are stored in profile.md exactly as you type them. The parser may ignore placeholders,
-            italic asides, or bullets it has no field for — those stay in the file but are not passed to the agent.
+            What you type is saved as-is. Hints and template text do not count as answers until you replace
+            them — the agent only sees fields it can read.
           </p>
           <p>
-            Only changed bullets are sent when you save; other sections of profile.md are left untouched.
+            Saving updates only the fields you changed. Everything else stays as it was.
           </p>
         </details>
       </aside>
