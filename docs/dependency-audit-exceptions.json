@@ -1,0 +1,8 @@
+[
+  {
+    "advisory": "https://github.com/advisories/GHSA-hp3w-g68c-fv3c",
+    "package": "sprintf-js",
+    "expires": "2026-11-06",
+    "reason": "No patched sprintf-js release is available. It is reached through argparse in js-yaml's bundled command-line binary, which the supported Rolebound parsing path does not execute. gray-matter uses js-yaml's safeLoad/safeDump module. A regression verifies that parsing YAML does not load argparse or sprintf-js. This is a temporary exception for this one moderate advisory; unknown advisories and high/critical findings fail. Reassess when the exception expires or the parsing/CLI path changes."
+  }
+]

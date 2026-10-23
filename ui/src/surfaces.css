@@ -1,0 +1,1204 @@
+/*
+ * Rolebound work surfaces — scoped presentation for Setup, Profile, Queue,
+ * Applications, Run, Accounts, and Settings. Uses plan tokens with fallbacks
+ * to index.css aliases until primary migration completes.
+ */
+
+.rb-surface {
+  --rb-canvas: var(--canvas, var(--ground, #eef0f3));
+  --rb-surface: var(--surface, #ffffff);
+  --rb-surface-2: var(--surface-2, #f5f7fa);
+  --rb-ink: var(--ink, #161b2e);
+  --rb-muted: var(--muted, #5e6779);
+  --rb-line: var(--line, #dde2ea);
+  --rb-accent: var(--accent, #2b4bdb);
+  --rb-accent-ink: var(--accent-ink, #ffffff);
+  --rb-danger: var(--danger, var(--crit, #b42318));
+  --rb-success: var(--success, var(--good, #17784e));
+  --rb-display: var(--font-display, var(--display, "Funnel Display", ui-sans-serif, system-ui, sans-serif));
+  --rb-body: var(--font-body, var(--body, "Funnel Sans", ui-sans-serif, system-ui, sans-serif));
+  --rb-col-max: 48rem;
+  --rb-form-width: min(760px, 100%);
+  --rb-aside-width: 280px;
+  --rb-list-max: 72rem;
+  --rb-settings-width: min(720px, 100%);
+  color: var(--rb-ink);
+  font-family: var(--rb-body);
+  font-size: 15px;
+  min-width: 0;
+}
+
+/* ── Layout shells ───────────────────────────────────────────────────── */
+
+.rb-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+}
+
+.rb-page-head {
+  padding: 1.25rem 0 1rem;
+  border-bottom: 1px solid var(--rb-line);
+  margin-bottom: 1.25rem;
+}
+
+.rb-page-head h2,
+.rb-page-head h3 {
+  font-family: var(--rb-display);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.rb-page-lead {
+  margin: 0.35rem 0 0;
+  color: var(--rb-muted);
+  font-size: 1rem;
+  max-width: 62ch;
+  line-height: 1.5;
+}
+
+/* ── Line-separated sections (not nested cards) ──────────────────────── */
+
+.rb-section {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--rb-line);
+}
+
+.rb-section:first-child {
+  padding-top: 0;
+}
+
+.rb-section:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.rb-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.rb-section-head h2,
+.rb-section-head h3 {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.rb-section-note {
+  margin: 0 0 1rem;
+  color: var(--rb-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 62ch;
+}
+
+.rb-section-note.crit {
+  color: var(--rb-danger);
+}
+
+.rb-section-note.warn {
+  color: var(--warn, #a65e12);
+}
+
+/* Legacy hook for e2e + detail forms */
+.rb-section.section,
+.section.rb-section {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--rb-line);
+}
+
+/* ── Constrained form column ───────────────────────────────────────── */
+
+.rb-form-column {
+  max-width: var(--rb-col-max);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rb-form-grid {
+  display: grid;
+  gap: 1rem 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .rb-form-grid.two {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.rb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rb-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rb-muted);
+}
+
+.rb-field .control,
+.rb-field input.control,
+.rb-field select.control,
+.rb-field textarea.control {
+  width: 100%;
+}
+
+.rb-field-row {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .rb-field-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.rb-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  padding-top: 0.25rem;
+}
+
+.rb-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--rb-muted);
+  line-height: 1.45;
+}
+
+.rb-field-error {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--rb-danger);
+}
+
+/* ── Setup first-use flow ────────────────────────────────────────────── */
+
+.rb-setup {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .rb-setup {
+    grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
+    align-items: start;
+    gap: 2rem;
+  }
+}
+
+.rb-setup-rail {
+  border: 1px solid var(--rb-line);
+  background: var(--rb-surface);
+  border-radius: var(--radius-lg, 16px);
+}
+
+.rb-setup-rail-head {
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--rb-line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rb-setup-rail-head h3 {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.rb-setup-steps {
+  padding: 0.5rem 0;
+}
+
+.rb-setup-step {
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--rb-line) 65%, transparent);
+}
+
+.rb-setup-step:last-child {
+  border-bottom: 0;
+}
+
+.rb-setup-step-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.rb-setup-step-head h4 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 650;
+  font-family: var(--rb-body);
+  letter-spacing: 0.01em;
+}
+
+.rb-setup-blocker {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--rb-muted);
+  line-height: 1.45;
+}
+
+.rb-setup-footnote {
+  margin: 0;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.8rem;
+  color: var(--rb-muted);
+  line-height: 1.5;
+  border-top: 1px solid var(--rb-line);
+  background: color-mix(in srgb, var(--rb-surface-2) 40%, var(--rb-surface));
+}
+
+.rb-setup-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rb-ack-banner {
+  border: 1px solid var(--rb-accent);
+  background: color-mix(in srgb, var(--rb-accent) 12%, var(--rb-surface));
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 0;
+  border-radius: var(--radius-lg, 16px);
+}
+
+.rb-ack-banner h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--rb-display);
+  font-size: 1.05rem;
+}
+
+.rb-connection-block {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--rb-line);
+}
+
+.rb-connection-block.form-card {
+  padding: 1.1rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--rb-line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ── Profile tab rail ────────────────────────────────────────────────── */
+
+.rb-profile-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0 0 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--rb-line);
+}
+
+.rb-profile-nav.subnav button,
+.subnav.rb-profile-nav button {
+  border: 1px solid transparent;
+  background: transparent;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: var(--radius, 10px);
+  color: var(--rb-muted);
+}
+
+.rb-profile-nav.subnav button[aria-current="page"],
+.subnav.rb-profile-nav button[aria-current="page"] {
+  color: var(--stamp-accent-fg, #1c2f8f);
+  border-color: transparent;
+  background: var(--accent-soft, #e6ebfc);
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.rb-profile-nav .count {
+  margin-left: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--rb-muted);
+}
+
+/* ── Record lists (queue, applications, accounts) ───────────────────── */
+
+.rb-record-list {
+  border-top: 1px solid var(--rb-line);
+}
+
+.rb-record-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rb-record-list th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rb-muted);
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--rb-line);
+  white-space: nowrap;
+}
+
+.rb-record-list td {
+  padding: 0.85rem 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--rb-line) 70%, transparent);
+  vertical-align: top;
+}
+
+.rb-record-list tr.row {
+  cursor: default;
+}
+
+.rb-record-list tr.row:hover {
+  background: color-mix(in srgb, var(--rb-surface-2) 35%, transparent);
+}
+
+.rb-record-title {
+  font-weight: 650;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  color: var(--rb-ink);
+}
+
+.rb-record-sub {
+  font-size: 0.82rem;
+  color: var(--rb-muted);
+  margin-top: 0.15rem;
+}
+
+.rb-record-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  align-items: center;
+}
+
+.rb-list-panel {
+  border: 1px solid var(--rb-line);
+  background: var(--rb-surface);
+  border-radius: var(--radius-lg, 16px);
+  max-width: 100%;
+  min-width: 0;
+}
+
+.rb-list-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--rb-line);
+}
+
+.rb-list-panel-head h2 {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.rb-list-panel-body {
+  padding: 0;
+}
+
+.rb-list-panel-body .rb-record-list {
+  border-top: 0;
+}
+
+.rb-filter-bar {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--rb-line);
+  background: color-mix(in srgb, var(--rb-surface-2) 25%, var(--rb-surface));
+}
+
+@media (min-width: 768px) {
+  .rb-filter-bar {
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+}
+
+/* ── Empty / loading states ──────────────────────────────────────────── */
+
+.rb-empty {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--rb-muted);
+}
+
+.rb-empty .glyph {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.5;
+}
+
+.rb-empty p {
+  margin: 0.35rem 0;
+  max-width: 36ch;
+  margin-inline: auto;
+  line-height: 1.5;
+}
+
+/* ── Run session workspace ───────────────────────────────────────────── */
+
+.rb-run {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rb-line);
+  background: var(--rb-surface);
+  border-radius: var(--radius-lg, 16px);
+  min-height: 24rem;
+  min-width: 0;
+}
+
+.rb-run-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem 1rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--rb-line);
+  align-items: start;
+}
+
+.rb-run-head h2 {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.rb-run-meta {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: var(--rb-muted);
+}
+
+.rb-run-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.rb-run-pinned {
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--rb-accent);
+  background: color-mix(in srgb, var(--rb-accent) 10%, var(--rb-surface));
+}
+
+.rb-run-pinned[aria-label="Required action"] {
+  /* preserve region semantics */
+}
+
+.rb-run-transcript {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-height: 12rem;
+  max-height: 50vh;
+  background: color-mix(in srgb, var(--rb-canvas) 50%, var(--rb-surface));
+}
+
+.rb-run-reply {
+  padding: 0.85rem 1.1rem 1rem;
+  border-top: 1px solid var(--rb-line);
+  background: var(--rb-surface);
+}
+
+.rb-run-reply .actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pinned-request.rb-ui-request {
+  padding: 0.85rem;
+  border: 1px solid var(--rb-accent);
+  border-radius: var(--radius, 10px);
+  background: color-mix(in srgb, var(--rb-accent) 8%, var(--rb-surface));
+}
+
+/* ── Application detail ──────────────────────────────────────────────── */
+
+.rb-detail-crumb {
+  font-size: 0.82rem;
+  color: var(--rb-muted);
+  padding-bottom: 0.5rem;
+}
+
+.rb-detail-crumb b {
+  color: var(--rb-ink);
+  font-weight: 650;
+}
+
+.rb-detail-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rb-line);
+}
+
+.rb-detail-header.topbar {
+  /* e2e / legacy */
+  border-bottom: 1px solid var(--rb-line);
+}
+
+.rb-detail-title h1,
+.rb-detail-title .rb-h-detail {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.rb-detail-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.65rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--rb-muted);
+}
+
+.rb-detail-grid {
+  display: grid;
+  gap: 0;
+}
+
+@media (min-width: 900px) {
+  .rb-detail-grid.detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0 2rem;
+  }
+}
+
+.rb-detail-grid .col {
+  min-width: 0;
+}
+
+.rb-evidence-shot.evidence-shot {
+  max-width: 100%;
+  border: 1px solid var(--rb-line);
+  border-radius: var(--radius, 10px);
+}
+
+/* ── Banner alerts (profile conflicts, warnings) ───────────────────── */
+
+.rb-banner {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--rb-line);
+  border-left: 3px solid var(--rb-accent);
+  background: var(--rb-surface);
+  border-radius: var(--radius-lg, 16px);
+  margin-bottom: 1rem;
+}
+
+.rb-banner.warn {
+  border-left-color: var(--warn, #a65e12);
+}
+
+.rb-banner.crit {
+  border-left-color: var(--rb-danger);
+}
+
+.rb-banner-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.rb-banner-head h2 {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+/* ── Toolbar link-as-button ──────────────────────────────────────────── */
+
+.rb-toolbar-link.btn {
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+/* ── Footnotes below lists ───────────────────────────────────────────── */
+
+.rb-footnotes {
+  padding: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rb-footnotes .note {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--rb-muted);
+  line-height: 1.5;
+}
+
+/* ── Profile editor (avoid legacy .detail / .col / .section) ───────── */
+
+.rb-profile-tab {
+  width: 100%;
+  min-width: 0;
+}
+
+.rb-profile-editor {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+  width: 100%;
+}
+
+@media (min-width: 960px) {
+  .rb-profile-editor {
+    grid-template-columns: minmax(0, var(--rb-form-width)) minmax(240px, var(--rb-aside-width));
+    gap: 2rem;
+  }
+}
+
+.rb-profile-form {
+  padding: 1.5rem;
+  border: 1px solid var(--rb-line);
+  background: var(--rb-surface);
+  border-radius: var(--radius-lg, 16px);
+  min-width: 0;
+}
+
+/* Semantic h1 (Topbar) → h2 (major) → h3 (subsection); visual scale preserved */
+.rb-surface .rb-h-major,
+.rb-surface h2.rb-h-major {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  color: var(--rb-ink);
+}
+
+.rb-surface .rb-h-minor,
+.rb-surface h3.rb-h-minor {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 650;
+  font-family: var(--rb-body);
+  letter-spacing: 0.01em;
+  color: var(--rb-ink);
+}
+
+.rb-surface h1.rb-h-detail {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--rb-ink);
+}
+
+.rb-profile-form-head h2,
+.rb-profile-form-head .rb-h-major {
+  font-size: 1.15rem;
+}
+
+.rb-list-panel-head .rb-h-major {
+  font-size: 1.05rem;
+}
+
+.rb-settings-section-head .rb-h-major {
+  font-size: 1.1rem;
+}
+
+.rb-setup-rail-head .rb-h-major {
+  font-size: 1rem;
+}
+
+.rb-run-head .rb-h-major {
+  font-size: 1.05rem;
+}
+
+.rb-form-status[aria-live] {
+  min-height: 1.25em;
+}
+
+.rb-profile-lead {
+  margin: 0.4rem 0 1.25rem;
+  color: var(--rb-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  max-width: 52ch;
+}
+
+.rb-profile-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.rb-profile-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.rb-profile-group legend {
+  font-size: 0.95rem;
+  font-weight: 650;
+  font-family: var(--rb-display);
+  color: var(--rb-ink);
+  padding: 0 0 0.65rem;
+}
+
+.rb-profile-grid {
+  display: grid;
+  gap: 1rem 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .rb-profile-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.rb-profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.rb-profile-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rb-muted);
+}
+
+.rb-profile-field .control {
+  width: 100%;
+}
+
+.rb-profile-form-foot {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rb-line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rb-form-status {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--rb-muted);
+  line-height: 1.45;
+}
+
+.rb-form-status.crit {
+  color: var(--rb-danger);
+}
+
+.rb-profile-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.rb-preview-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--rb-line);
+  background: var(--rb-surface);
+  border-radius: var(--radius, 10px);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  color: var(--rb-ink);
+  cursor: pointer;
+}
+
+.rb-preview-count {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--rb-muted);
+}
+
+.rb-preview-panel {
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--rb-line);
+  background: color-mix(in srgb, var(--rb-surface-2) 30%, var(--rb-surface));
+  border-radius: var(--radius, 10px);
+}
+
+.rb-preview-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.rb-preview-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.rb-preview-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--rb-muted);
+}
+
+.rb-preview-value {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.rb-preview-value.muted {
+  color: var(--rb-muted);
+}
+
+.rb-preview-note {
+  margin: 0.85rem 0 0;
+  font-size: 0.82rem;
+  color: var(--rb-muted);
+  line-height: 1.45;
+}
+
+.rb-tech-details {
+  border: 1px solid var(--rb-line);
+  border-radius: var(--radius, 10px);
+  padding: 0.65rem 0.9rem;
+  background: color-mix(in srgb, var(--rb-surface-2) 20%, var(--rb-surface));
+}
+
+.rb-tech-details summary {
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--rb-muted);
+}
+
+.rb-tech-details p {
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+  color: var(--rb-muted);
+  line-height: 1.5;
+}
+
+.rb-tech-details .rb-settings-grid,
+.rb-tech-details .rb-hint {
+  margin-top: 0.75rem;
+}
+
+/* ── Settings stack ──────────────────────────────────────────────────── */
+
+.rb-settings-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: var(--rb-settings-width);
+}
+
+.rb-settings-intro {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--rb-muted);
+  line-height: 1.55;
+}
+
+.rb-settings-intro a {
+  color: var(--rb-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rb-settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rb-line);
+}
+
+.rb-settings-section:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.rb-settings-section-head h2 {
+  margin: 0;
+  font-family: var(--rb-display);
+  font-size: 1.1rem;
+  font-weight: 650;
+}
+
+.rb-settings-section-head p {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: var(--rb-muted);
+  line-height: 1.5;
+}
+
+.rb-settings-form > .btn {
+  align-self: flex-start;
+}
+
+.rb-settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rb-settings-grid {
+  display: grid;
+  gap: 1rem 1.25rem;
+}
+
+@media (min-width: 560px) {
+  .rb-settings-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.rb-settings-span2 {
+  grid-column: 1 / -1;
+}
+
+.rb-connection-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rb-connection-item {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--rb-line);
+  background: var(--rb-surface);
+  border-radius: var(--radius-lg, 16px);
+}
+
+.rb-connection-item.form-card {
+  box-shadow: none;
+}
+
+.rb-connection-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.rb-connection-item-head h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.rb-connection-meta {
+  margin: 0.35rem 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--rb-muted);
+}
+
+.rb-expand-form {
+  border: 1px solid var(--rb-line);
+  border-radius: var(--radius-lg, 16px);
+  padding: 0.65rem 1rem 1rem;
+  background: color-mix(in srgb, var(--rb-surface-2) 15%, var(--rb-surface));
+}
+
+.rb-expand-form summary {
+  cursor: pointer;
+  font-weight: 650;
+  font-size: 0.92rem;
+  color: var(--rb-ink);
+}
+
+.rb-expand-form .rb-settings-form {
+  margin-top: 1rem;
+}
+
+.rb-model-select {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rb-line);
+}
+
+.rb-model-select-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.rb-model-select-title.rb-h-minor {
+  font-size: 0.95rem;
+}
+
+.rb-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ── Queue add panels ────────────────────────────────────────────────── */
+
+.rb-queue-add {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: var(--rb-settings-width);
+  margin-top: 1.25rem;
+}
+
+.rb-queue-add-panel {
+  border: 1px solid var(--rb-line);
+  border-radius: var(--radius-lg, 16px);
+  background: var(--rb-surface);
+  padding: 0.65rem 1rem 1rem;
+}
+
+.rb-queue-add-panel summary {
+  cursor: pointer;
+  font-family: var(--rb-display);
+  font-weight: 650;
+  font-size: 0.98rem;
+  color: var(--rb-ink);
+}
+
+.rb-queue-add-lead {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--rb-muted);
+  line-height: 1.5;
+}
+
+.rb-queue-promote {
+  margin-top: 0.75rem;
+}
+
+.rb-promote-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.rb-promote-search .rb-profile-field {
+  flex: 1 1 14rem;
+}
+
+/* Isolate surfaces from legacy index.css .section card chrome */
+.rb-surface .rb-profile-form,
+.rb-surface .rb-settings-section,
+.rb-surface .rb-queue-add-panel,
+.rb-surface .rb-expand-form {
+  /* reset inherited .section styles when accidentally combined */
+  text-transform: none;
+}
+
+.rb-surface .rb-profile-form > h2,
+.rb-surface .rb-settings-section > h2 {
+  font-family: var(--rb-display);
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 1.1rem;
+  color: var(--rb-ink);
+}
+
+/* Standalone editors need separation; forms inside list panels share its edge. */
+.rb-workspace > .rb-profile-form {
+  margin-block: 0.75rem;
+}
+
+.rb-list-panel > .rb-profile-form {
+  border: 0;
+  border-top: 1px solid var(--rb-line);
+  border-radius: 0;
+}
+
+@media (max-width: 480px) {
+  .rb-profile-form {
+    padding: 1rem;
+  }
+
+  .rb-profile-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .rb-detail-grid.detail {
+    grid-template-columns: 1fr;
+  }
+
+  .rb-promote-search {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rb-list-panel-head {
+    padding: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-surface * {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "pi-jobs-ui",
+  "private": true,
+  "license": "MIT",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Localhost UI for Rolebound — the pi-jobs job-application workspace",
+  "scripts": {
+    "build": "vite build",
+    "start": "tsx server/index.ts",
+    "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "PI_JOBS_DEV_PROXY=1 tsx watch server/index.ts",
+    "dev:client": "vite",
+    "seed:fixture": "tsx scripts/seedFixtureWorkspace.ts",
+    "dev:fixture": "export PI_JOBS_ROOT=\"$(npm run --silent seed:fixture)\"; test -n \"$PI_JOBS_ROOT\" || exit 1; npm run dev",
+    "test": "vitest run",
+    "test:e2e": "node e2e/run-suite.mjs",
+    "test:e2e:desktop": "node e2e/run-suite.mjs --desktop-only",
+    "test:e2e:full": "node e2e/run-suite.mjs --full",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "chokidar": "^5.0.0",
+    "express": "^5.2.1",
+    "gray-matter": "^4.0.3",
+    "proper-lockfile": "^4.1.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-markdown": "10.1.0",
+    "remark-gfm": "4.0.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.61.0",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.7",
+    "@types/busboy": "^1.5.4",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.1",
+    "@types/proper-lockfile": "^4.1.4",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "jsdom": "29.1.1",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
+  }
+}

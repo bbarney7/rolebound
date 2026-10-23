@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "job-playwright": {
+      "command": "node",
+      "args": [
+        "node_modules/@playwright/mcp/cli.js",
+        "--browser",
+        "chrome",
+        "--user-data-dir",
+        "./.browser-data"
+      ],
+      "exposure": "direct"
+    }
+  }
+}

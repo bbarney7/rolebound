@@ -1,0 +1,255 @@
+.rb-provider-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.rb-provider-setup-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rb-detected-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rb-detected-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+.rb-detected-card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1 1 12rem;
+}
+
+.rb-detected-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.rb-detected-meta {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.rb-sign-in-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .rb-provider-setup {
+    padding-inline: 0;
+  }
+
+  .rb-sign-in-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rb-detected-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .rb-detected-card-main {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .rb-detected-card .btn,
+  .rb-detected-card .rb-login-button {
+    width: 100%;
+    align-self: stretch;
+  }
+}
+
+.rb-sign-in-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+}
+
+.rb-sign-in-cell .rb-login-button,
+.rb-sign-in-cell .rb-login-button .rb-form-actions {
+  width: 100%;
+}
+
+.rb-sign-in-cell .rb-login-button .btn:first-child {
+  width: 100%;
+  min-height: 2.75rem;
+}
+
+.rb-paste-key summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.rb-paste-key summary::-webkit-details-marker {
+  display: none;
+}
+
+.rb-paste-key summary::before {
+  content: "›";
+  display: inline-block;
+  transition: transform 0.15s ease;
+  color: var(--muted);
+}
+
+.rb-paste-key[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.rb-cursor-sign-in-hint {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.rb-enterprise-link {
+  font-size: 0.8125rem;
+  align-self: flex-start;
+}
+
+/* First-launch model card (FirstLaunch.tsx) */
+.rb-first-launch-setup .rb-provider-setup {
+  gap: 0;
+  margin-bottom: 0;
+}
+
+.rb-first-launch-setup #detected-logins-heading,
+.rb-first-launch-setup .rb-provider-setup-group:has(#detected-logins-heading) .rb-hint {
+  display: none;
+}
+
+.rb-first-launch-setup .rb-detected-stack {
+  gap: 0;
+}
+
+.rb-first-launch-setup .rb-provider-setup-group:has(#sign-in-heading) {
+  margin: 0;
+  padding: 18px 22px 22px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  gap: 14px;
+}
+
+.rb-first-launch-setup #sign-in-heading {
+  font-size: 0;
+  margin: 0;
+}
+
+.rb-first-launch-setup #sign-in-heading::before {
+  content: "Or sign in with a subscription you already pay for";
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.rb-first-launch-setup .rb-sign-in-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rb-first-launch-setup .rb-sign-in-cell {
+  min-height: 0;
+}
+
+.rb-first-launch-setup .rb-sign-in-cell .rb-login-button .btn,
+.rb-first-launch-setup .rb-sign-in-cell > .btn {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line-strong, #c9d0dc);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.rb-first-launch-setup .rb-paste-key {
+  padding: 0 22px 20px;
+  background: var(--surface-2);
+}
+
+.rb-first-launch-setup .rb-paste-key summary {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.rb-first-launch-setup .rb-paste-key summary::before {
+  display: none;
+}
+
+/* Provider identity and action occupy separate columns. Login feedback spans
+   the entire row, so an error can never squeeze or overlap account details. */
+.rb-detected-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 16px;
+  padding: 16px;
+}
+.rb-detected-card-main { flex-direction: row; align-items: center; gap: 12px; }
+.rb-provider-mark {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; flex: 0 0 40px;
+  border-radius: 10px; background: #f4f5f7; color: #202535;
+  font-size: 18px; font-weight: 700;
+}
+.rb-provider-mark img { display: block; width: 24px; height: 24px; }
+.rb-provider-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.rb-detected-label { font-size: 15px; line-height: 1.4; }
+.rb-detected-account { font-size: 13px; color: var(--ink-2); overflow-wrap: anywhere; }
+.rb-detected-meta { font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.rb-detected-card > .rb-login-button { display: contents; }
+.rb-detected-card > .rb-login-button > .rb-form-actions { grid-column: 2; grid-row: 1; padding: 0; justify-content: flex-end; }
+.rb-detected-card > .rb-login-button > :not(.rb-form-actions) { grid-column: 1 / -1; margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.rb-login-button { min-width: 0; }
+.rb-login-button > .rb-form-status { margin-top: 8px; }
+.rb-login-button > .rb-form-status.crit {
+  padding: 12px; border: 1px solid color-mix(in srgb, var(--danger) 35%, var(--line));
+  border-radius: 8px; background: color-mix(in srgb, var(--danger) 6%, var(--surface));
+  line-height: 1.5; overflow-wrap: anywhere;
+}
+.rb-first-launch-setup .rb-detected-card {
+  padding: 16px 22px; border: 0; border-bottom: 1px solid var(--line);
+  border-radius: 0; background: transparent;
+}
+.rb-first-launch-setup .rb-detected-card .btn { font-size: 14px; white-space: nowrap; }
+.rb-first-launch-setup .rb-detected-card .btn.primary {
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong);
+}
+.rb-first-launch-setup .rb-detected-card .btn:hover:not(:disabled) { background: var(--accent-soft); }
+.rb-first-launch-setup .rb-paste-key { padding-top: 16px; }
+@media (max-width: 480px) {
+  .rb-detected-card { grid-template-columns: minmax(0, 1fr); }
+  .rb-detected-card > .rb-login-button > .rb-form-actions { grid-column: 1; grid-row: auto; }
+  .rb-detected-card .btn { width: auto; }
+  .rb-first-launch-setup .rb-detected-card { padding: 16px; }
+}

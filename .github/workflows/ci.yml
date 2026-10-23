@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24.14.0
+          cache: npm
+      - name: Create isolated runtime directories
+        run: |
+          mkdir -p "$RUNNER_TEMP/empty-home" "$RUNNER_TEMP/empty-pi-agent"
+          printf 'HOME=%s\nPI_CODING_AGENT_DIR=%s\n' "$RUNNER_TEMP/empty-home" "$RUNNER_TEMP/empty-pi-agent" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm run audit:deps
+      - run: npm run lifecycle-test
+      - run: npm run release:audit -- --candidate "$GITHUB_WORKSPACE"
+      - run: npm run workspace-test
+      - run: node --test scripts/release-tools.test.mjs
+      - run: npm run typecheck
+      - run: npm run typecheck --workspace ui
+      - run: npm test
+      - run: npm test --workspace ui
+      - run: npm run build
+      - name: Verify Chrome is available for the MCP smoke
+        shell: bash
+        run: |
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            test -x "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          else
+            command -v google-chrome >/dev/null
+          fi
+      - run: npm run runtime-smoke
+      - run: npm run submission-smoke
+      - run: npm run server-smoke
+      - run: npm run demo-smoke
+      - name: Install Playwright Chromium for browser journeys
+        run: npx playwright install chromium --with-deps
+        working-directory: ui
+      - run: npm run browser-test
+        env:
+          PI_JOBS_E2E_PORT: "14747"
+      - name: Fresh-user smoke on exported Unicode path (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          export_dir="$RUNNER_TEMP/rolebound pilot ü"
+          npm run release:export -- --output "$export_dir"
+          npm run release:audit -- --candidate "$export_dir"
+          cd "$export_dir"
+          npm ci
+          npm run fresh-user-smoke -- --root "$export_dir"
+
+  release-export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24.14.0
+          cache: npm
+      - name: Create isolated runtime directories
+        run: |
+          mkdir -p "$RUNNER_TEMP/empty-home" "$RUNNER_TEMP/empty-pi-agent"
+          printf 'HOME=%s\nPI_CODING_AGENT_DIR=%s\n' "$RUNNER_TEMP/empty-home" "$RUNNER_TEMP/empty-pi-agent" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm run audit:deps
+      - run: npm run lifecycle-test
+      - name: Export reviewed source
+        run: npm run release:export -- --output "$RUNNER_TEMP/rolebound pilot ü"
+      - name: Audit release artifact before runtime setup
+        run: npm run release:audit -- --candidate "$RUNNER_TEMP/rolebound pilot ü"
+      - name: Verify the exact export
+        run: |
+          export_dir="$RUNNER_TEMP/rolebound pilot ü"
+          cd "$export_dir"
+          npm ci
+          npm run fresh-user-smoke -- --root "$export_dir"
+          npm run audit:deps
+          npm run lifecycle-test
+          npm run workspace-test
+          node --test scripts/release-tools.test.mjs
+          npm run typecheck
+          npm run typecheck --workspace ui
+          npm test
+          npm test --workspace ui
+          npm run build
+          npm run server-smoke
+          npm run demo-smoke
+          cd ui && npx playwright install chromium --with-deps
+          cd ..
+          PI_JOBS_E2E_PORT=14747 npm run browser-test

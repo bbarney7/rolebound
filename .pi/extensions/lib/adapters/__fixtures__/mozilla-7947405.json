@@ -1,0 +1,786 @@
+{
+  "absolute_url": "https://job-boards.greenhouse.io/mozilla/jobs/7947405",
+  "data_compliance": [
+    {
+      "type": "gdpr",
+      "requires_consent": false,
+      "requires_processing_consent": false,
+      "requires_retention_consent": false,
+      "retention_period": null,
+      "demographic_data_consent_applies": false
+    }
+  ],
+  "internal_job_id": 3451689,
+  "location": {
+    "name": "Remote Canada"
+  },
+  "metadata": null,
+  "id": 7947405,
+  "updated_at": "2026-08-26T19:31:57-04:00",
+  "requisition_id": "R3136",
+  "title": "Front End Engineering Manager, Firefox Desktop",
+  "company_name": "Mozilla",
+  "first_published": "2026-06-01T12:53:25-04:00",
+  "language": "en",
+  "application_deadline": null,
+  "departments": [
+    {
+      "id": 128309,
+      "name": "Firefox",
+      "child_ids": [],
+      "parent_id": null
+    }
+  ],
+  "offices": [
+    {
+      "id": 77552,
+      "name": "Remote US",
+      "location": null,
+      "child_ids": [],
+      "parent_id": null
+    }
+  ],
+  "ai_disclaimer": null,
+  "include_ai_disclaimer": null,
+  "ai_opt_out_request_url": null,
+  "compliance": null,
+  "demographic_questions": {
+    "header": "Canada Demographic Questions",
+    "description": "<p><span style=\"font-weight: 400;\">At Mozilla we value diversity, prioritize equity and inclusion, and proactively work to design hiring processes that mitigate bias. We are an equal opportunity employer. We do not discriminate on the basis of race (including hairstyle and texture), religion (including religious grooming and dress practices), gender, gender identity, gender expression, color, national origin, pregnancy, ancestry, domestic partner status, disability, sexual orientation, age, genetic predisposition, medical condition, marital status, citizenship status, military or veteran status, or any other basis covered by applicable laws.&nbsp; Mozilla will not tolerate discrimination or harassment based on any of these characteristics or any other unlawful behavior, conduct, or purpose.</span></p>\n<p><span style=\"font-weight: 400;\">To help us track the effectiveness of these efforts, please consider answering the following demographic questions. Answering these questions is entirely </span><strong>voluntary</strong><span style=\"font-weight: 400;\">. Your decision to respond (or not) won't be considered in the hiring process or thereafter. Any information you do provide will have no impact on the hiring process.&nbsp; Should you become a Mozilla employee, the information provided will not be transferred to your employee profile. In addition, the information you provide will be aggregated and dis-identified, ensuring that your responses cannot be traced back to you personally by Mozilla.</span></p>",
+    "questions": [
+      {
+        "id": 47961,
+        "label": "Which of the following best describes your race?",
+        "required": false,
+        "type": "multi_value_single_select",
+        "answer_options": [
+          {
+            "id": 288518,
+            "label": "Asian",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288519,
+            "label": "Black/African Descent",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288520,
+            "label": "Indigenous/Aboriginal/Native American/Alaska Native",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288521,
+            "label": "Pacific Islander or Native Hawaiian",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288522,
+            "label": "Hispanic or Latine/x ",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288523,
+            "label": "Middle Eastern/North African/Southwest Asian",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288524,
+            "label": "White/European Descent",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288525,
+            "label": "Multi-racial/ethnic",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288526,
+            "label": "My race/ethnicity is not listed here",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288527,
+            "label": "I prefer not to answer this question",
+            "free_form": false,
+            "decline_to_answer": false
+          }
+        ]
+      },
+      {
+        "id": 47962,
+        "label": "Which of the following best describes your gender?",
+        "required": false,
+        "type": "multi_value_single_select",
+        "answer_options": [
+          {
+            "id": 288528,
+            "label": "Man",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288529,
+            "label": "Woman",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288530,
+            "label": "Non-Binary",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288531,
+            "label": "I prefer not to share my gender",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288532,
+            "label": "I prefer to self-describe",
+            "free_form": true,
+            "decline_to_answer": false
+          }
+        ]
+      },
+      {
+        "id": 47963,
+        "label": "Do you personally identify as transgender?",
+        "required": false,
+        "type": "multi_value_single_select",
+        "answer_options": [
+          {
+            "id": 288533,
+            "label": "Yes",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288534,
+            "label": "No",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288535,
+            "label": "I prefer not to answer this question",
+            "free_form": false,
+            "decline_to_answer": false
+          }
+        ]
+      },
+      {
+        "id": 47964,
+        "label": "Which of the following best describes your sex?",
+        "required": false,
+        "type": "multi_value_single_select",
+        "answer_options": [
+          {
+            "id": 288536,
+            "label": "Female",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288537,
+            "label": "Male",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288538,
+            "label": "Intersex",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288539,
+            "label": "I prefer not to answer this question",
+            "free_form": false,
+            "decline_to_answer": false
+          }
+        ]
+      },
+      {
+        "id": 47965,
+        "label": "Which of the following best describes your sexual orientation? (Select all that apply)",
+        "required": false,
+        "type": "multi_value_multi_select",
+        "answer_options": [
+          {
+            "id": 288540,
+            "label": "I do not identify as LGBTQIA+",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288541,
+            "label": "I identify as LGBTQIA+ because of my gender identity",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288542,
+            "label": "I Identify as LGBTQIA+ because of my gender identity and sexual orientation",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288543,
+            "label": "I identify as LGBTQIA+ because of my sexual orientation",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288544,
+            "label": "My LGBTQIA+ identity is not listed here",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288545,
+            "label": "I prefer not to answer this question",
+            "free_form": false,
+            "decline_to_answer": false
+          }
+        ]
+      },
+      {
+        "id": 47966,
+        "label": "Which of the following best describes your pronouns? (Select all that apply)",
+        "required": false,
+        "type": "multi_value_multi_select",
+        "answer_options": [
+          {
+            "id": 288546,
+            "label": "She/Her",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288547,
+            "label": "He/Him",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288548,
+            "label": "They/Them",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288549,
+            "label": "I prefer to self-describe",
+            "free_form": true,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288550,
+            "label": "I prefer not to answer this question",
+            "free_form": false,
+            "decline_to_answer": false
+          }
+        ]
+      },
+      {
+        "id": 47967,
+        "label": "Do you consider yourself to be a person with a disability?",
+        "required": false,
+        "type": "multi_value_single_select",
+        "answer_options": [
+          {
+            "id": 288551,
+            "label": "I do not have a disability ",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288552,
+            "label": "I have a disability",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288553,
+            "label": "I prefer not to share my disability status",
+            "free_form": false,
+            "decline_to_answer": false
+          }
+        ]
+      },
+      {
+        "id": 47968,
+        "label": "Please select your age range.",
+        "required": false,
+        "type": "multi_value_single_select",
+        "answer_options": [
+          {
+            "id": 288554,
+            "label": "19-24",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288555,
+            "label": "25-34",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288556,
+            "label": "35-44",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288557,
+            "label": "45-54",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288558,
+            "label": "55-64",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288559,
+            "label": "65+",
+            "free_form": false,
+            "decline_to_answer": false
+          },
+          {
+            "id": 288560,
+            "label": "I prefer not to answer this question",
+            "free_form": false,
+            "decline_to_answer": false
+          }
+        ]
+      }
+    ]
+  },
+  "questions": [
+    {
+      "description": null,
+      "label": "First Name",
+      "required": true,
+      "fields": [
+        {
+          "name": "first_name",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Last Name",
+      "required": true,
+      "fields": [
+        {
+          "name": "last_name",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Email",
+      "required": true,
+      "fields": [
+        {
+          "name": "email",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Phone",
+      "required": false,
+      "fields": [
+        {
+          "name": "phone",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Resume/CV",
+      "required": true,
+      "fields": [
+        {
+          "name": "resume",
+          "type": "input_file",
+          "values": []
+        },
+        {
+          "name": "resume_text",
+          "type": "textarea",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Cover Letter",
+      "required": false,
+      "fields": [
+        {
+          "name": "cover_letter",
+          "type": "input_file",
+          "values": []
+        },
+        {
+          "name": "cover_letter_text",
+          "type": "textarea",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "LinkedIn Profile",
+      "required": false,
+      "fields": [
+        {
+          "name": "question_67089404",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Website",
+      "required": false,
+      "fields": [
+        {
+          "name": "question_67089405",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "How did you hear about this job?",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67089406[]",
+          "type": "multi_value_multi_select",
+          "values": [
+            {
+              "label": "Referred by Current Mozilla Employee",
+              "value": 722342097
+            },
+            {
+              "label": "I am a Mozilla Contributor",
+              "value": 722342099
+            },
+            {
+              "label": "LinkedIn",
+              "value": 722342100
+            },
+            {
+              "label": "Career Site",
+              "value": 722342101
+            },
+            {
+              "label": "University Career Fair/Event",
+              "value": 722342102
+            },
+            {
+              "label": "Recruiting Open House Event",
+              "value": 722342103
+            },
+            {
+              "label": "Tech Talk",
+              "value": 722342104
+            },
+            {
+              "label": "Hackathon",
+              "value": 722342105
+            },
+            {
+              "label": "Social Media",
+              "value": 722342106
+            },
+            {
+              "label": "Other",
+              "value": 722342107
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "If referred by a current Mozilla employee, please tell us who.",
+      "required": false,
+      "fields": [
+        {
+          "name": "question_67089407",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Have you been employed by Mozilla before?",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67089408",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 1
+            },
+            {
+              "label": "No",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "If offered this position would you be able to fill the position in one of the countries listed on the job posting without relocation assistance from Mozilla?\n\n",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67089409",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 1
+            },
+            {
+              "label": "No",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Are you authorized to work lawfully in the country to which you are applying for Mozilla?",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67089410",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 722342109
+            },
+            {
+              "label": "No",
+              "value": 722342111
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "(Skip this question if you are applying to work in Canada or the UK). Do you now or in the future require sponsorship? ",
+      "required": false,
+      "fields": [
+        {
+          "name": "question_67089411",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 1
+            },
+            {
+              "label": "No",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "<p>I have received, read and understand the <a href=\"https://docs.google.com/document/d/e/2PACX-1vTEeCImDA-kqr0wm3JwfOv_2MS5FZ8oyL2pEWfVsZbeO87E41r2wePoOhppQ4qX6w/pub\">privacy notice</a> for job applicants at Mozilla.</p>\n<p>&nbsp;</p>",
+      "label": "Applicant Privacy Notice",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67089412",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 722342095
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Current Employer",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67089413",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Current Job Title",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67089414",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Are you currently located in Canada?",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67336666",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 1
+            },
+            {
+              "label": "No",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Have you managed a team of Front End engineers before? ",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67336667",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 1
+            },
+            {
+              "label": "No",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Please briefly describe your experience working with design systems.",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67336668",
+          "type": "textarea",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Are you looking for a role where you'd be super hands on and technical, or more in a pure people management role? ",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_68559694",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Super hands on and technical",
+              "value": 748080601
+            },
+            {
+              "label": "Pure people management",
+              "value": 748080602
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "location_questions": [
+    {
+      "description": null,
+      "label": "Longitude",
+      "required": true,
+      "fields": [
+        {
+          "name": "longitude",
+          "type": "input_hidden",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Latitude",
+      "required": true,
+      "fields": [
+        {
+          "name": "latitude",
+          "type": "input_hidden",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Location",
+      "required": true,
+      "fields": [
+        {
+          "name": "location",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    }
+  ]
+}

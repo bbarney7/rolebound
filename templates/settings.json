@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "connections": [],
+  "agent": null,
+  "scoring": null,
+  "captcha": {
+    "provider": "off",
+    "api_key": "",
+    "max_paid_tasks_per_day": 20
+  }
+}

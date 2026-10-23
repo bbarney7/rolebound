@@ -1,0 +1,9 @@
+### Result
+{"state":"submitted"}
+### Ran Playwright code
+```js
+await (async (page) => { const x = { a: 1 }; if (x.a) { return { state: "submitted" }; } return { state: "unknown" }; }
+)(page);
+```
+### Page
+- Page URL: about:blank

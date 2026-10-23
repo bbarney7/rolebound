@@ -1,0 +1,21 @@
+/* Self-hosted Rolebound typography. Loaded from ui/index.html — no runtime CDN. */
+@font-face {
+  font-family: "Rolebound Display";
+  src: url("/fonts/rolebound-display.woff2") format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rolebound Body";
+  src: url("/fonts/rolebound-body.woff2") format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-display: "Rolebound Display", "Funnel Display", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Rolebound Body", "Funnel Sans", ui-sans-serif, system-ui, sans-serif;
+}

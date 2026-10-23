@@ -1,0 +1,28 @@
+.rb-model-picker { position: relative; min-width: 0; }
+.rb-model-picker > .control { width: 100%; padding-right: 44px; }
+.rb-model-picker-toggle {
+  position: absolute; right: 1px; top: 1px; bottom: 1px; width: 42px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; border: 0; border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--muted); background: transparent; cursor: pointer;
+}
+.rb-model-picker-toggle:hover { color: var(--ink); background: var(--surface-2); }
+.rb-model-picker-toggle:disabled { cursor: default; opacity: 0.5; }
+.rb-model-menu {
+  z-index: 80; display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--line-strong); border-radius: 12px;
+  background: var(--surface); color: var(--ink); font-family: var(--font-body);
+  box-shadow: 0 12px 32px -12px rgb(8 12 24 / 0.35);
+}
+.rb-model-menu-head { display: flex; justify-content: space-between; gap: 12px; padding: 12px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--line); }
+.rb-model-options { padding: 4px; overflow-y: auto; min-height: 0; overscroll-behavior: contain; }
+.rb-model-option { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 7px; font-size: 14px; line-height: 1.4; cursor: pointer; }
+.rb-model-option.is-active { background: var(--surface-2); }
+.rb-model-option[aria-selected="true"] { color: var(--accent); background: var(--accent-soft); }
+.rb-model-option > svg { flex: none; }
+.rb-model-option-copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; overflow-wrap: anywhere; }
+.rb-model-option-copy small { color: var(--muted); font-size: 12px; }
+.rb-model-menu-empty { margin: 0; padding: 16px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+@media (forced-colors: active) { .rb-model-option.is-active { outline: 1px solid Highlight; } }
+
+.rb-model-select .rb-profile-field:has(#load-catalog-btn) { justify-content: flex-end; }

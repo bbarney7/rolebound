@@ -1,0 +1,201 @@
+.rb-search-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 36px 30px;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  box-sizing: border-box;
+  min-height: 100%;
+}
+
+.rb-search-rail-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.rb-search-route {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rb-route-stops {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.rb-route-track {
+  position: absolute;
+  left: 6px;
+  top: 22px;
+  bottom: 22px;
+  width: 2px;
+  background: var(--line);
+}
+
+.rb-route-stop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 0;
+  position: relative;
+}
+
+.rb-route-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong, #c9d0dc);
+  background: var(--surface);
+  flex: none;
+  box-sizing: border-box;
+}
+
+.rb-route-dot--accent {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.rb-route-dot--needs {
+  border-color: var(--needs);
+  background: var(--needs);
+}
+
+.rb-route-dot--sent {
+  border-color: var(--sent);
+  background: var(--sent);
+}
+
+.rb-route-label {
+  flex: 1;
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+.rb-route-count {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.rb-route-count--zero {
+  color: var(--muted);
+}
+
+.rb-route-empty {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.rb-search-checklist-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.rb-search-checklist-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rb-search-checklist-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 15px;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.rb-search-checklist-row:hover .rb-search-checklist-status--muted {
+  color: var(--ink-2);
+}
+
+.rb-search-checklist-status {
+  flex-shrink: 0;
+  max-width: 55%;
+  text-align: right;
+}
+
+.rb-search-checklist-status--ready {
+  color: var(--sent);
+  font-weight: 600;
+}
+
+.rb-search-checklist-status--muted {
+  color: var(--muted);
+}
+
+.rb-search-checklist-status--warn {
+  color: var(--warn);
+  font-weight: 600;
+}
+
+.rb-first-launch {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 56px 24px 28px;
+}
+
+.rb-first-launch-hero {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.rb-first-launch-mark {
+  flex: none;
+  margin-top: 6px;
+}
+
+.rb-first-launch-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.rb-first-launch-card {
+  margin-left: 42px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.rb-first-launch-card-title {
+  margin: 0;
+  padding: 20px 22px 6px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .rb-first-launch-card {
+    margin-left: 0;
+  }
+
+  .rb-chat-intro.rb-first-launch h1 {
+    font-size: 34px;
+  }
+}

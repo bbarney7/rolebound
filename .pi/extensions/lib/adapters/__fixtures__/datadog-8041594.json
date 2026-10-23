@@ -1,0 +1,772 @@
+{
+  "absolute_url": "https://careers.datadoghq.com/detail/8041594/?gh_jid=8041594",
+  "data_compliance": [
+    {
+      "type": "gdpr",
+      "requires_consent": false,
+      "requires_processing_consent": false,
+      "requires_retention_consent": false,
+      "retention_period": null,
+      "demographic_data_consent_applies": false
+    }
+  ],
+  "internal_job_id": 2889711,
+  "location": {
+    "name": "New York, New York, USA"
+  },
+  "metadata": [
+    {
+      "id": 33310,
+      "name": "Time Type",
+      "value": "Full time",
+      "value_type": "single_select"
+    },
+    {
+      "id": 166208,
+      "name": "Area - Engineering",
+      "value": "Backend",
+      "value_type": "single_select"
+    },
+    {
+      "id": 498252,
+      "name": "Cost Center",
+      "value": "Engineering - Dev Eng",
+      "value_type": "single_select"
+    },
+    {
+      "id": 516515,
+      "name": "Geography",
+      "value": "North America",
+      "value_type": "single_select"
+    },
+    {
+      "id": 9593635,
+      "name": "Early Career Time Type",
+      "value": null,
+      "value_type": "single_select"
+    },
+    {
+      "id": 29446322,
+      "name": "Pay Transparency Range",
+      "value": {
+        "unit": "USD",
+        "max_value": "240000.0",
+        "min_value": "192000.0"
+      },
+      "value_type": "currency_range"
+    },
+    {
+      "id": 31273219,
+      "name": "Does this role require access to ITAR-controlled data?",
+      "value": "Pipeline - Some roles may require an ITAR licence",
+      "value_type": "single_select"
+    },
+    {
+      "id": 58619948,
+      "name": "IC or MG",
+      "value": "MG",
+      "value_type": "single_select"
+    }
+  ],
+  "id": 8041594,
+  "updated_at": "2026-08-27T16:40:41-04:00",
+  "requisition_id": "R13548",
+  "title": "Manager I, Engineering - Onboarding Growth",
+  "company_name": "Datadog",
+  "first_published": "2026-07-01T11:08:26-04:00",
+  "language": "en",
+  "application_deadline": null,
+  "departments": [
+    {
+      "id": 77061,
+      "name": "Leadership",
+      "child_ids": [],
+      "parent_id": 9022
+    }
+  ],
+  "offices": [
+    {
+      "id": 5455,
+      "name": "Boston",
+      "location": "Boston, MA, United States",
+      "child_ids": [],
+      "parent_id": 78117
+    },
+    {
+      "id": 5664,
+      "name": "New York",
+      "location": "New York, NY, United States",
+      "child_ids": [
+        81327,
+        76746
+      ],
+      "parent_id": 73429
+    },
+    {
+      "id": 76757,
+      "name": "Remote - Texas",
+      "location": null,
+      "child_ids": [],
+      "parent_id": 63589
+    }
+  ],
+  "ai_disclaimer": null,
+  "include_ai_disclaimer": null,
+  "ai_opt_out_request_url": null,
+  "compliance": [
+    {
+      "type": "eeoc",
+      "questions": [],
+      "description": "&lt;p&gt;PUBLIC BURDEN STATEMENT: According to the Paperwork Reduction Act of 1995 no persons are required to respond to a collection of information unless such collection displays a valid OMB control number. This survey should take about 5 minutes to complete.&lt;/p&gt;\n"
+    },
+    {
+      "type": "eeoc",
+      "questions": [
+        {
+          "required": false,
+          "label": "DisabilityStatus",
+          "fields": [
+            {
+              "name": "disability_status",
+              "type": "multi_value_single_select",
+              "values": [
+                {
+                  "label": "I do not want to answer",
+                  "value": "3"
+                },
+                {
+                  "label": "No, I do not have a disability and have not had one in the past",
+                  "value": "2"
+                },
+                {
+                  "label": "Yes, I have a disability, or have had one in the past",
+                  "value": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "description": "&lt;h3&gt;&lt;strong&gt;Voluntary Self-Identification of Disability&lt;/strong&gt;&lt;/h3&gt;\n&lt;div style=&quot;display:flex; justify-content:space-between;&quot;&gt;\n  &lt;div&gt;\n    &lt;div&gt;Form CC-305&lt;/div&gt;\n    &lt;div&gt;Page 1 of 1&lt;/div&gt;\n  &lt;/div&gt;\n  &lt;div&gt;\n    &lt;div&gt;OMB Control Number 1250-0005&lt;/div&gt;\n    &lt;div&gt;Expires 07/31/2029&lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;\n&lt;br&gt;\n&lt;strong&gt;Why are you being asked to complete this form?&lt;/strong&gt;\n&lt;p&gt;We are a federal contractor or subcontractor. The law requires us to provide equal employment opportunity to qualified people with disabilities. We have a goal of having at least 7% of our workers as people with disabilities. The law says we must measure our progress towards this goal. To do this, we must ask applicants and employees if they have a disability or have ever had one. People can become disabled, so we need to ask this question at least every five years.&lt;/p&gt;\n&lt;p&gt;Completing this form is voluntary, and we hope that you will choose to do so. Your answer is confidential. No one who makes hiring decisions will see it. Your decision to complete the form and your answer will not harm you in any way. If you want to learn more about the law or this form, visit the U.S. Department of Labor’s Office of Federal Contract Compliance Programs (OFCCP) website at &lt;a href=&quot;https://www.dol.gov/ofccp&quot; target=&quot;_blank&quot;&gt;www.dol.gov/ofccp&lt;/a&gt;.&lt;/p&gt;\n&lt;strong&gt;How do you know if you have a disability?&lt;/strong&gt;\n&lt;p&gt;A disability is a condition that substantially limits one or more of your “major life activities.” If you have or have ever had such a condition, you are a person with a disability. &lt;strong&gt;Disabilities include, but are not limited to:&lt;/strong&gt;&lt;/p&gt;\n&lt;ul&gt;\n  &lt;li&gt;Alcohol or other substance use disorder (not currently using drugs illegally)&lt;/li&gt;\n  &lt;li&gt;Autoimmune disorder, for example, lupus, fibromyalgia, rheumatoid arthritis, HIV/AIDS&lt;/li&gt;\n  &lt;li&gt;Blind or low vision&lt;/li&gt;\n  &lt;li&gt;Cancer (past or present)&lt;/li&gt;\n  &lt;li&gt;Cardiovascular or heart disease&lt;/li&gt;\n  &lt;li&gt;Celiac disease&lt;/li&gt;\n  &lt;li&gt;Cerebral palsy&lt;/li&gt;\n  &lt;li&gt;Deaf or serious difficulty hearing&lt;/li&gt;\n  &lt;li&gt;Diabetes&lt;/li&gt;\n  &lt;li&gt;Disfigurement, for example, disfigurement caused by burns, wounds, accidents, or congenital disorders&lt;/li&gt;\n  &lt;li&gt;Epilepsy or other seizure disorder&lt;/li&gt;\n  &lt;li&gt;Gastrointestinal disorders, for example, Crohn&#39;s Disease, irritable bowel syndrome&lt;/li&gt;\n  &lt;li&gt;Intellectual or developmental disability&lt;/li&gt;\n  &lt;li&gt;Mental health conditions, for example, depression, bipolar disorder, anxiety disorder, schizophrenia, PTSD&lt;/li&gt;\n  &lt;li&gt;Missing limbs or partially missing limbs&lt;/li&gt;\n  &lt;li&gt;Mobility impairment, benefiting from the use of a wheelchair, scooter, walker, leg brace(s) and/or other supports&lt;/li&gt;\n  &lt;li&gt;Nervous system condition, for example, migraine headaches, Parkinson’s disease, multiple sclerosis (MS)&lt;/li&gt;\n  &lt;li&gt;Neurodivergence, for example, attention-deficit/hyperactivity disorder (ADHD), autism spectrum disorder, dyslexia, dyspraxia, other learning disabilities&lt;/li&gt;\n  &lt;li&gt;Partial or complete paralysis (any cause)&lt;/li&gt;\n  &lt;li&gt;Pulmonary or respiratory conditions, for example, tuberculosis, asthma, emphysema&lt;/li&gt;\n  &lt;li&gt;Short stature (dwarfism)&lt;/li&gt;\n  &lt;li&gt;Traumatic brain injury&lt;/li&gt;\n&lt;/ul&gt;\n"
+    },
+    {
+      "type": "eeoc",
+      "questions": [
+        {
+          "required": false,
+          "label": "VeteranStatus",
+          "fields": [
+            {
+              "name": "veteran_status",
+              "type": "multi_value_single_select",
+              "values": [
+                {
+                  "label": "I don't wish to answer",
+                  "value": "3"
+                },
+                {
+                  "label": "I identify as one or more of the classifications of a protected veteran",
+                  "value": "2"
+                },
+                {
+                  "label": "I am not a protected veteran",
+                  "value": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "description": "&lt;p&gt;\n  If you believe you belong to any of the categories of protected veterans listed below, please indicate by making the appropriate selection.\n  As a government contractor subject to the Vietnam Era Veterans&#39; Readjustment Assistance Act (VEVRAA), we request this information in order to measure\n  the effectiveness of the outreach and positive recruitment efforts we undertake pursuant to VEVRAA. Classification of protected categories\n  is as follows:\n&lt;/p&gt;\n&lt;p&gt;A &quot;disabled veteran&quot; is one of the following: a veteran of the U.S. military, ground, naval or air service who is entitled to compensation (or who but for the receipt of military retired pay would be entitled to compensation) under laws administered by the Secretary of Veterans Affairs; or a person who was discharged or released from active duty because of a service-connected disability.&lt;/p&gt;\n&lt;p&gt;A &quot;recently separated veteran&quot; means any veteran during the three-year period beginning on the date of such veteran&#39;s discharge or release from active duty in the U.S. military, ground, naval, or air service.&lt;/p&gt;\n&lt;p&gt;An &quot;active duty wartime or campaign badge veteran&quot; means a veteran who served on active duty in the U.S. military, ground, naval or air service during a war, or in a campaign or expedition for which a campaign badge has been authorized under the laws administered by the Department of Defense.&lt;/p&gt;\n&lt;p&gt;An &quot;Armed forces service medal veteran&quot; means a veteran who, while serving on active duty in the U.S. military, ground, naval or air service, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.&lt;/p&gt;\n"
+    },
+    {
+      "type": "eeoc",
+      "questions": [
+        {
+          "required": false,
+          "label": "Race",
+          "fields": [
+            {
+              "name": "race",
+              "type": "multi_value_single_select",
+              "values": [
+                {
+                  "label": "Decline To Self Identify",
+                  "value": "8"
+                },
+                {
+                  "label": "Two or More Races",
+                  "value": "7"
+                },
+                {
+                  "label": "Native Hawaiian or Other Pacific Islander",
+                  "value": "6"
+                },
+                {
+                  "label": "White",
+                  "value": "5"
+                },
+                {
+                  "label": "Hispanic or Latino",
+                  "value": "4"
+                },
+                {
+                  "label": "Black or African American",
+                  "value": "3"
+                },
+                {
+                  "label": "Asian",
+                  "value": "2"
+                },
+                {
+                  "label": "American Indian or Alaskan Native",
+                  "value": "1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "required": false,
+          "label": "Gender",
+          "fields": [
+            {
+              "name": "gender",
+              "type": "multi_value_single_select",
+              "values": [
+                {
+                  "label": "Decline To Self Identify",
+                  "value": "3"
+                },
+                {
+                  "label": "Female",
+                  "value": "2"
+                },
+                {
+                  "label": "Male",
+                  "value": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "description": "&lt;h3&gt;&lt;strong&gt;Voluntary Self-Identification&lt;/strong&gt;&lt;/h3&gt;&lt;br/&gt;&lt;p&gt;For government reporting purposes, we ask candidates to respond to the below self-identification survey.\nCompletion of the form is entirely voluntary. Whatever your decision, it will not be considered in the hiring\nprocess or thereafter. Any information that you do provide will be recorded and maintained in a\nconfidential file.&lt;/p&gt;\n\n&lt;p&gt;As set forth in Datadog’s Equal Employment Opportunity policy,\nwe do not discriminate on the basis of any protected group status under any applicable law.&lt;/p&gt;\n"
+    }
+  ],
+  "demographic_questions": null,
+  "questions": [
+    {
+      "description": null,
+      "label": "First Name",
+      "required": true,
+      "fields": [
+        {
+          "name": "first_name",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Last Name",
+      "required": true,
+      "fields": [
+        {
+          "name": "last_name",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Preferred First Name",
+      "required": true,
+      "fields": [
+        {
+          "name": "preferred_name",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Email",
+      "required": true,
+      "fields": [
+        {
+          "name": "email",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Phone",
+      "required": true,
+      "fields": [
+        {
+          "name": "phone",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Resume/CV",
+      "required": true,
+      "fields": [
+        {
+          "name": "resume",
+          "type": "input_file",
+          "values": []
+        },
+        {
+          "name": "resume_text",
+          "type": "textarea",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Cover Letter",
+      "required": false,
+      "fields": [
+        {
+          "name": "cover_letter",
+          "type": "input_file",
+          "values": []
+        },
+        {
+          "name": "cover_letter_text",
+          "type": "textarea",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "LinkedIn Profile",
+      "required": false,
+      "fields": [
+        {
+          "name": "question_67918858",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Website",
+      "required": false,
+      "fields": [
+        {
+          "name": "question_67918859",
+          "type": "input_text",
+          "values": []
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "I certify that the information provided in this application is true and correct to the best of my knowledge. I understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination.",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67918860",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 1
+            },
+            {
+              "label": "No",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "<p><span class=\"&ldquo;s1&quot;\">Read our&nbsp;<a href=\"https://www.datadoghq.com/legal/applicant-candidate-privacy/\" target=\"_blank\" rel=\"noopener\">Applicant and Candidate Privacy Policy</a></span>.</p>",
+      "label": "I understand my application will be processed in accordance with Datadog’s Candidate Privacy Policy.",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67918861",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes",
+              "value": 1
+            },
+            {
+              "label": "No",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "Are you legally authorised to work full-time in the country where this job is based?",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67918862",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "Yes, no restriction.",
+              "value": 731100015
+            },
+            {
+              "label": "Yes, but I will need sponsorship in the future.",
+              "value": 731100016
+            },
+            {
+              "label": "No, I need sponsorship now.",
+              "value": 731100017
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "<p><em>This job requires you to be in the office 3 days a week. All open locations for this role are listed at the top of this page. For accommodations, you can submit a request <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeoJeduEZ2NdZF_65uZmWUrCM-zee7yADXX1s6Xr9zAGq8iKA/viewform\" target=\"_blank\" rel=\"noopener\">here</a>.</em></p>",
+      "label": "In what cities are you available to work?",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67918863[]",
+          "type": "multi_value_multi_select",
+          "values": [
+            {
+              "label": "Amsterdam",
+              "value": 731100018
+            },
+            {
+              "label": "Atlanta",
+              "value": 731100019
+            },
+            {
+              "label": "Bangalore",
+              "value": 731100020
+            },
+            {
+              "label": "Barcelona",
+              "value": 731100021
+            },
+            {
+              "label": "Barueri São Paulo",
+              "value": 731100022
+            },
+            {
+              "label": "Bordeaux",
+              "value": 731100024
+            },
+            {
+              "label": "Boston",
+              "value": 731100025
+            },
+            {
+              "label": "Chicago",
+              "value": 731100026
+            },
+            {
+              "label": "Copenhagen",
+              "value": 731100027
+            },
+            {
+              "label": "Denver",
+              "value": 731100028
+            },
+            {
+              "label": "Dubai",
+              "value": 731100029
+            },
+            {
+              "label": "Dublin",
+              "value": 731100030
+            },
+            {
+              "label": "Grenoble",
+              "value": 731100031
+            },
+            {
+              "label": "Hamburg",
+              "value": 731100032
+            },
+            {
+              "label": "Jakarta",
+              "value": 731100033
+            },
+            {
+              "label": "Lisbon",
+              "value": 731100034
+            },
+            {
+              "label": "London",
+              "value": 731100035
+            },
+            {
+              "label": "Lyon",
+              "value": 731100036
+            },
+            {
+              "label": "Madrid",
+              "value": 731100037
+            },
+            {
+              "label": "Melbourne",
+              "value": 731100038
+            },
+            {
+              "label": "Mexico City",
+              "value": 731100039
+            },
+            {
+              "label": "Montpellier",
+              "value": 731100041
+            },
+            {
+              "label": "Mumbai",
+              "value": 731100042
+            },
+            {
+              "label": "Nantes",
+              "value": 731100043
+            },
+            {
+              "label": "New York City",
+              "value": 731100044
+            },
+            {
+              "label": "Nice",
+              "value": 731100045
+            },
+            {
+              "label": "Osaka",
+              "value": 731100046
+            },
+            {
+              "label": "Paris",
+              "value": 731100047
+            },
+            {
+              "label": "Pittsburgh",
+              "value": 748101953
+            },
+            {
+              "label": "Remote",
+              "value": 731100048
+            },
+            {
+              "label": "Riyadh",
+              "value": 731100049
+            },
+            {
+              "label": "Salt Lake City",
+              "value": 731100050
+            },
+            {
+              "label": "San Francisco",
+              "value": 731100051
+            },
+            {
+              "label": "San Jose (Campbell)",
+              "value": 731100052
+            },
+            {
+              "label": "San Sebastian",
+              "value": 731100053
+            },
+            {
+              "label": "São Paulo",
+              "value": 731100054
+            },
+            {
+              "label": "Seattle",
+              "value": 731100055
+            },
+            {
+              "label": "Seoul",
+              "value": 731100056
+            },
+            {
+              "label": "Singapore",
+              "value": 731100057
+            },
+            {
+              "label": "Sophia Antipolis",
+              "value": 731100058
+            },
+            {
+              "label": "Stockholm",
+              "value": 731100059
+            },
+            {
+              "label": "Sydney",
+              "value": 731100060
+            },
+            {
+              "label": "Tel Aviv",
+              "value": 731100061
+            },
+            {
+              "label": "Tokyo",
+              "value": 731100062
+            },
+            {
+              "label": "Toronto",
+              "value": 731100063
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": null,
+      "label": "How did you hear about this opportunity?",
+      "required": true,
+      "fields": [
+        {
+          "name": "question_67918864",
+          "type": "multi_value_single_select",
+          "values": [
+            {
+              "label": "AfroTech",
+              "value": 731100064
+            },
+            {
+              "label": "Angelist",
+              "value": 731100065
+            },
+            {
+              "label": "Blind App",
+              "value": 731100066
+            },
+            {
+              "label": "Break Through Tech",
+              "value": 731100067
+            },
+            {
+              "label": "BuiltIn Boston",
+              "value": 731100068
+            },
+            {
+              "label": "BuiltIn NYC",
+              "value": 731100069
+            },
+            {
+              "label": "ColorStack",
+              "value": 731100070
+            },
+            {
+              "label": "Campus Event",
+              "value": 731100071
+            },
+            {
+              "label": "Datadog Employee",
+              "value": 731100072
+            },
+            {
+              "label": "Datadog's Careers Page",
+              "value": 731100074
+            },
+            {
+              "label": "Event",
+              "value": 731100076
+            },
+            {
+              "label": "Flexjobs",
+              "value": 731100077
+            },
+            {
+              "label": "Girls Who Code",
+              "value": 731100079
+            },
+            {
+              "label": "Github",
+              "value": 731100080
+            },
+            {
+              "label": "Glassdoor",
+              "value": 731100082
+            },
+            {
+              "label": "Hacker News",
+              "value": 731100083
+            },
+            {
+              "label": "Hired",
+              "value": 731100084
+            },
+            {
+              "label": "Hiretual",
+              "value": 731100085
+            },
+            {
+              "label": "I love Datadog's product!",
+              "value": 731100086
+            },
+            {
+              "label": "Instagram",
+              "value": 731100087
+            },
+            {
+              "label": "JobTeaser",
+              "value": 731100088
+            },
+            {
+              "label": "LinkedIn (Datadog Page)",
+              "value": 731100089
+            },
+            {
+              "label": "LinkedIn (Job Posting)",
+              "value": 731100090
+            },
+            {
+              "label": "Rewriting the Code",
+              "value": 731100092
+            },
+            {
+              "label": "School job board",
+              "value": 731100093
+            },
+            {
+              "label": "The Muse",
+              "value": 731100094
+            },
+            {
+              "label": "Thrive",
+              "value": 731100095
+            },
+            {
+              "label": "Underdog",
+              "value": 731100096
+            },
+            {
+              "label": "Welcome to the Jungle",
+              "value": 731100097
+            },
+            {
+              "label": "Other",
+              "value": 731100098
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "location_questions": []
+}

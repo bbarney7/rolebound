@@ -1,0 +1,898 @@
+.rb-chat-pane {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.rb-chat-column {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 16px;
+  box-sizing: border-box;
+}
+
+.rb-chat-intro-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.rb-chat-transcript-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rb-chat-transcript {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 0 16px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.rb-chat-user-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rb-chat-user-bubble {
+  max-width: 78%;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  color: var(--ink);
+  border-radius: 16px 16px 4px 16px;
+  font-size: 17px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.rb-chat-assistant-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.rb-chat-assistant-mark {
+  flex: none;
+  margin-top: 2px;
+}
+
+.rb-chat-assistant-mark-spacer {
+  flex: none;
+  width: 28px;
+}
+
+.rb-chat-assistant-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 17px;
+}
+
+.rb-chat-md {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rb-chat-md-p {
+  margin: 0;
+}
+
+.rb-chat-md-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.rb-chat-inline-code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.92em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--surface-2);
+}
+
+.rb-chat-md-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rb-chat-md-link:hover {
+  color: var(--accent-ink);
+}
+
+@keyframes rb-chat-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.rb-chat-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -0.15em;
+  background: var(--ink);
+  animation: rb-chat-blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-chat-caret,
+  .rb-chat-activity-dot {
+    animation: none !important;
+  }
+}
+
+.rb-chat-activity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+  padding: 4px 0 4px 42px;
+}
+
+.rb-chat-activity--compact {
+  padding-left: 0;
+}
+
+.rb-chat-activity-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.rb-chat-activity-error {
+  color: var(--danger);
+  font-size: 13px;
+}
+
+@keyframes rb-chat-pulse-dot {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+.rb-chat-activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+  animation: rb-chat-pulse-dot 1.4s ease-in-out infinite;
+}
+
+.rb-chat-tool-group {
+  margin-left: 42px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.rb-chat-tool-group-summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.rb-chat-tool-group-summary::-webkit-details-marker {
+  display: none;
+}
+
+.rb-chat-tool-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  padding-left: 4px;
+}
+
+.rb-chat-working {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 42px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.rb-chat-notify {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  padding-left: 42px;
+}
+
+.rb-chat-notify--warning {
+  color: var(--needs, #5a3a00);
+  background: var(--needs-soft, #fdf1da);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  margin-left: 42px;
+}
+
+.rb-chat-notify--error {
+  color: var(--danger);
+}
+
+.rb-chat-system {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.rb-chat-jump {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.rb-chat-jump:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-card-wrap {
+  margin-left: 42px;
+}
+
+.rb-chat-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rb-chat-card-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.rb-chat-card-body {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.rb-chat-card-body--muted {
+  color: var(--muted);
+}
+
+.rb-chat-card-warning {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--needs-soft, #fdf1da);
+  color: var(--needs, #5a3a00);
+  font-size: 14px;
+}
+
+.rb-chat-disclosure summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 8px;
+}
+
+.rb-chat-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rb-chat-section-chip {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
+.rb-chat-job-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rb-chat-job-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.rb-chat-job-row:last-child {
+  border-bottom: 0;
+}
+
+.rb-chat-job-title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.rb-chat-job-meta {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.rb-chat-job-link {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rb-chat-job-score {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sent, #17784e);
+}
+
+.rb-chat-job-main {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.rb-chat-file-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-size: 14px;
+  font-family: ui-monospace, monospace;
+}
+
+.rb-chat-card-line {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.rb-chat-app-company {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.rb-chat-app-title {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.rb-chat-app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.rb-chat-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  text-transform: capitalize;
+}
+
+.rb-chat-pill--sent {
+  background: color-mix(in srgb, var(--sent, #17784e) 15%, transparent);
+  color: var(--sent, #17784e);
+}
+
+.rb-chat-pill--needs {
+  background: var(--needs-soft, #fdf1da);
+  color: var(--needs, #5a3a00);
+}
+
+.rb-chat-app-slug {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: ui-monospace, monospace;
+}
+
+.rb-chat-conn-provider {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.rb-chat-conn-status {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.rb-chat-ui-request {
+  margin-left: 42px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rb-chat-ui-request--resolved {
+  opacity: 0.75;
+}
+
+.rb-chat-ui-title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.rb-chat-ui-title--muted {
+  color: var(--muted);
+}
+
+.rb-chat-ui-answered {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.rb-chat-ui-message {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.rb-chat-ui-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.rb-chat-ui-actions--stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.rb-chat-ui-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--canvas);
+  font-family: var(--font-body);
+  font-size: 15px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.rb-chat-ui-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-btn {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.rb-chat-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-btn--primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink, #fff);
+}
+
+.rb-chat-btn--apply {
+  min-height: 40px;
+  font-size: 14px;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.rb-chat-btn--apply:hover {
+  background: var(--accent-soft);
+}
+
+.rb-chat-job-extras {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-top: 4px;
+}
+
+.rb-chat-link-btn {
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rb-chat-link-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-composer-block {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.rb-chat-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rb-chat-note {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.rb-chat-model-menu {
+  position: relative;
+  flex: none;
+  align-self: center;
+}
+
+.rb-chat-model-btn {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  max-width: min(100%, 320px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rb-chat-model-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rb-chat-model-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-model-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  width: min(320px, calc(100vw - 32px));
+  padding: 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--ink) 12%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rb-chat-model-popover-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.rb-chat-model-section-label {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.rb-chat-model-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rb-chat-model-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.rb-chat-model-control {
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--canvas);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.rb-chat-model-control:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-model-error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.rb-chat-model-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rb-chat-model-use {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink, #fff);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.rb-chat-model-use:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rb-chat-prompt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rb-chat-prompt-chip {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 14px;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.rb-chat-prompt-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rb-chat-prompt-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-composer-error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--danger);
+}
+
+.rb-chat-attach-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rb-chat-attach-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: 13px;
+}
+
+.rb-chat-attach-chip--failed {
+  border: 1px solid var(--danger);
+}
+
+.rb-chat-attach-remove {
+  min-width: 44px;
+  min-height: 44px;
+  margin: -6px -8px -6px 0;
+  border: 0;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.rb-chat-attach-remove:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-strong);
+  border-radius: 16px;
+}
+
+.rb-chat-composer-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.rb-chat-composer-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  resize: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.45;
+  padding: 6px 0;
+  max-height: calc(24px * 8);
+  overflow-y: auto;
+}
+
+.rb-chat-composer:has(.rb-chat-composer-input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.rb-chat-composer-input:focus-visible { outline: none; }
+.rb-chat-composer-input { overflow-wrap: anywhere; }
+
+
+.rb-chat-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rb-chat-icon-btn {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.rb-chat-icon-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rb-chat-icon-btn--send:not(:disabled) {
+  background: var(--accent);
+  color: var(--accent-ink, #fff);
+}
+
+.rb-chat-icon-btn--stop {
+  background: var(--accent);
+  color: var(--accent-ink, #fff);
+}
+
+.rb-chat-icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rb-chat-composer-hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.rb-chat-drop-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent) 12%, var(--canvas));
+  border: 2px dashed var(--accent);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.rb-chat-end-session {
+  margin-left: 10px;
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rb-chat-end-session:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

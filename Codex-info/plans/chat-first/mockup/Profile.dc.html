@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rolebound resume to profile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&amp;family=Funnel+Sans:wght@300..800&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1F5;color:#161B2E;font-family:'Funnel Sans',system-ui,sans-serif}
+a{color:#2B4BDB}a:hover{color:#1C33A8}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid #2B4BDB;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 1180px; display: flex; flex-direction: column; background: #EEF1F5; font-family: 'Funnel Sans', system-ui, sans-serif; color: #161B2E;">
+
+<header style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 14px 28px; background: #FFFFFF; border-bottom: 1px solid #DDE2EA;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#161B2E"></rect><path d="M9 21V13a4 4 0 0 1 4-4h4" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><circle cx="20.5" cy="9" r="2.6" fill="#F5B342"></circle></svg>
+<span style="font-family: 'Funnel Display', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.01em;">Rolebound</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #E2F3EA; color: #0F5A39; font-size: 14px;"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #17784E;"></span><strong style="font-weight: 700;">Cursor</strong><span>composer-2.5</span></span>
+<button type="button" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid #DDE2EA; border-radius: 10px; background: #FFFFFF; font-size: 15px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg>Workspace</button>
+<button type="button" aria-label="Switch to dark theme" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #DDE2EA; border-radius: 10px; background: #FFFFFF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></button>
+</div>
+</header>
+
+<div style="flex: 1; display: flex; flex-wrap: wrap; align-items: stretch;">
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; padding: 32px 40px 28px;">
+<div style="max-width: 720px; width: 100%; margin: 0 auto; flex: 1; display: flex; flex-direction: column; gap: 24px;">
+
+<p style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #5E6779;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#17784E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Connected to Cursor. I'll use composer-2.5 for everything until you change it.</p>
+
+<div style="align-self: flex-end; max-width: 78%; display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 12px;">
+<svg width="28" height="34" viewBox="0 0 28 34" aria-hidden="true"><path d="M2 3a2 2 0 0 1 2-2h14l8 8v22a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" fill="#F1F3F7" stroke="#C9D0DC"></path><path d="M18 1v8h8" fill="none" stroke="#C9D0DC"></path><rect x="6" y="20" width="16" height="7" rx="1.5" fill="#C4362B"></rect></svg>
+<div><div style="font-size: 15px; font-weight: 700;">Jordan_Reyes_Resume.pdf</div><div style="font-size: 13px; color: #5E6779;">2 pages, 148 KB</div></div>
+</div>
+<div style="padding: 12px 16px; background: {{accent}}; color: #FFFFFF; border-radius: 16px 16px 4px 16px; font-size: 17px; line-height: 1.45;">Here's my resume</div>
+</div>
+
+<div style="display: flex; gap: 14px;">
+<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex: none; margin-top: 2px;"><rect width="28" height="28" rx="7" fill="#161B2E"></rect><path d="M9 21V13a4 4 0 0 1 4-4h4" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><circle cx="20.5" cy="9" r="2.6" fill="#F5B342"></circle></svg>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+<p style="margin: 0; font-size: 17px; line-height: 1.55;">Got it. Nine years across six jobs, mostly product engineering at payments companies. Here's the profile I wrote from it.</p>
+<details style="font-size: 14px; color: #5E6779;"><summary style="cursor: pointer;">Read the PDF and filled 5 profile sections</summary><p style="margin: 8px 0 0;">resume_extract_text, then profile_update_section for Identity, Summary, Work history, Skills and Education.</p></details>
+
+<section aria-labelledby="profile-sheet" style="background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 16px; overflow: hidden;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 18px 22px; border-bottom: 1px solid #EDF0F4;">
+<h2 id="profile-sheet" style="margin: 0; font-family: 'Funnel Display', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em;">Jordan Reyes</h2>
+<span style="padding: 5px 10px; border-radius: 999px; background: #E2F3EA; color: #0F5A39; font-size: 13px; font-weight: 600;">5 sections filled</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0;">
+<div style="padding: 18px 22px; border-right: 1px solid #EDF0F4; border-bottom: 1px solid #EDF0F4; display: flex; flex-direction: column; gap: 6px;">
+<h3 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #5E6779;">Contact</h3>
+<div style="font-size: 15px;">jordan.reyes@example.com</div>
+<div style="font-size: 15px;">(555) 014-2290</div>
+<div style="font-size: 15px;">Denver, Colorado</div>
+</div>
+<div style="padding: 18px 22px; border-bottom: 1px solid #EDF0F4; display: flex; flex-direction: column; gap: 6px;">
+<h3 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #5E6779;">Summary</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.5;">Product engineer who ships payments and onboarding flows end to end, from the database to the last pixel.</p>
+</div>
+<div style="padding: 18px 22px; border-right: 1px solid #EDF0F4; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 13px; font-weight: 700; color: #5E6779;">Work history</h3>
+<div><div style="font-size: 15px; font-weight: 700;">Senior Product Engineer, Northwind Pay</div><div style="font-size: 14px; color: #5E6779;">2021 to now</div></div>
+<div><div style="font-size: 15px; font-weight: 700;">Product Engineer, Lattice Bank</div><div style="font-size: 14px; color: #5E6779;">2018 to 2021</div></div>
+<div><div style="font-size: 15px; font-weight: 700;">Software Engineer, Tidepool Labs</div><div style="font-size: 14px; color: #5E6779;">2016 to 2018</div></div>
+<a href="#" style="font-size: 14px;">3 earlier jobs</a>
+</div>
+<div style="padding: 18px 22px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 13px; font-weight: 700; color: #5E6779;">Skills</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<span style="padding: 5px 10px; border-radius: 8px; background: #F1F3F7; font-size: 14px;">TypeScript</span>
+<span style="padding: 5px 10px; border-radius: 8px; background: #F1F3F7; font-size: 14px;">React</span>
+<span style="padding: 5px 10px; border-radius: 8px; background: #F1F3F7; font-size: 14px;">Node</span>
+<span style="padding: 5px 10px; border-radius: 8px; background: #F1F3F7; font-size: 14px;">Postgres</span>
+<span style="padding: 5px 10px; border-radius: 8px; background: #F1F3F7; font-size: 14px;">Payments</span>
+<span style="padding: 5px 10px; border-radius: 8px; background: #F1F3F7; font-size: 14px;">Design systems</span>
+</div>
+<h3 style="margin: 8px 0 0; font-size: 13px; font-weight: 700; color: #5E6779;">Education</h3>
+<div style="font-size: 15px;">B.S. Computer Science, University of Colorado Boulder</div>
+</div>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 22px; border-top: 1px solid #EDF0F4; background: #F8F9FB;">
+<button type="button" style="min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 700;">Looks right</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D0DC; border-radius: 10px; background: #FFFFFF; font-size: 15px; font-weight: 600;">Edit in form</button>
+</div>
+</section>
+
+<p style="margin: 6px 0 0; font-size: 17px; line-height: 1.55;">Your resume doesn't answer three things almost every application asks. I'll save your answers and reuse them.</p>
+
+<div style="display: flex; flex-direction: column; gap: 18px; padding: 20px 22px; background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 16px;">
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+<legend style="padding: 0; margin-bottom: 10px; font-size: 16px; font-weight: 700;">Can you work in the US without visa sponsorship?</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1.5px solid #C9D0DC; border-radius: 999px; background: #FFFFFF; font-size: 15px;">Yes</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1.5px solid #C9D0DC; border-radius: 999px; background: #FFFFFF; font-size: 15px;">No, I'll need sponsorship</button>
+</div>
+</fieldset>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+<legend style="padding: 0; margin-bottom: 10px; font-size: 16px; font-weight: 700;">Where do you want to work? Pick any.</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<button type="button" aria-pressed="true" style="min-height: 44px; padding: 0 16px; border: 1.5px solid {{accent}}; border-radius: 999px; background: #E6EBFC; color: #1C2F8F; font-size: 15px; font-weight: 600;">Remote in the US</button>
+<button type="button" aria-pressed="true" style="min-height: 44px; padding: 0 16px; border: 1.5px solid {{accent}}; border-radius: 999px; background: #E6EBFC; color: #1C2F8F; font-size: 15px; font-weight: 600;">Denver, hybrid</button>
+<button type="button" aria-pressed="false" style="min-height: 44px; padding: 0 16px; border: 1.5px solid #C9D0DC; border-radius: 999px; background: #FFFFFF; font-size: 15px;">Denver, in office</button>
+<button type="button" aria-pressed="false" style="min-height: 44px; padding: 0 16px; border: 1.5px solid #C9D0DC; border-radius: 999px; background: #FFFFFF; font-size: 15px;">Somewhere else</button>
+</div>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<label for="salary" style="font-size: 16px; font-weight: 700;">What's the lowest base salary you'd take?</label>
+<div style="display: flex; align-items: center; gap: 8px; max-width: 280px; padding: 0 14px; min-height: 48px; border: 1.5px solid #C9D0DC; border-radius: 10px;"><span aria-hidden="true" style="color: #5E6779; font-size: 17px;">$</span><input id="salary" inputmode="numeric" placeholder="170,000" style="flex: 1; min-width: 0; border: 0; outline: none; font-size: 17px; background: transparent;"></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="max-width: 720px; width: 100%; margin: 28px auto 0; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 12px 12px 12px 18px; background: #FFFFFF; border: 1.5px solid #C9D0DC; border-radius: 16px;">
+<label for="composer-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Message Rolebound</label>
+<textarea id="composer-2" rows="2" placeholder="Answer above, or just tell me here." style="flex: 1; min-width: 0; border: 0; resize: none; background: transparent; font-size: 17px; line-height: 1.45; padding: 6px 0; outline: none;"></textarea>
+<button type="button" aria-label="Attach a file" style="width: 44px; height: 44px; border: 0; border-radius: 10px; background: #F1F3F7; display: inline-flex; align-items: center; justify-content: center; flex: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5.5 5.5 0 0 1-7.8-7.8l8.6-8.6a3.7 3.7 0 0 1 5.2 5.2l-8.6 8.6a1.8 1.8 0 0 1-2.6-2.6l8-8"></path></svg></button>
+<button type="button" aria-label="Send" style="width: 44px; height: 44px; border: 0; border-radius: 10px; background: {{accent}}; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; flex: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button>
+</div>
+</div>
+</main>
+
+<aside aria-label="Your search" style="flex: 1 1 340px; background: #FFFFFF; border-left: 1px solid #DDE2EA; padding: 36px 30px; display: flex; flex-direction: column; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-family: 'Funnel Display', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em;">Your search</h2>
+<ol style="list-style: none; margin: 0; padding: 0; position: relative;">
+<li aria-hidden="true" style="position: absolute; left: 6px; top: 22px; bottom: 22px; width: 2px; background: #DDE2EA;"></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Found</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Shortlisted</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Applying</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Sent</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+</ol>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 15px; font-weight: 700;">Before the first application</h3>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>AI model</span><span style="color: #17784E; font-weight: 600;">Cursor</span></li>
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>Profile</span><span style="color: #8A5A00; font-weight: 600;">3 questions left</span></li>
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>Resume</span><span style="color: #17784E; font-weight: 600;">Jordan_Reyes_Resume.pdf</span></li>
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>Companies to watch</span><span style="color: #5E6779;">None yet</span></li>
+</ul>
+</div>
+</aside>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2B4BDB","options":["#2B4BDB","#0F6E66","#6D3FD6","#161B2E"]},"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#2B4BDB' };
+  }
+}
+</script>
+</body>
+</html>

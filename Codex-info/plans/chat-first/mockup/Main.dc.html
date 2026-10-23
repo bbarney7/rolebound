@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rolebound first launch</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&amp;family=Funnel+Sans:wght@300..800&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1F5;color:#161B2E;font-family:'Funnel Sans',system-ui,sans-serif}
+a{color:#2B4BDB}a:hover{color:#1C33A8}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid #2B4BDB;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 960px; display: flex; flex-direction: column; background: #EEF1F5; font-family: 'Funnel Sans', system-ui, sans-serif; color: #161B2E;">
+
+<header style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 14px 28px; background: #FFFFFF; border-bottom: 1px solid #DDE2EA;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#161B2E"></rect><path d="M9 21V13a4 4 0 0 1 4-4h4" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><circle cx="20.5" cy="9" r="2.6" fill="#F5B342"></circle></svg>
+<span style="font-family: 'Funnel Display', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.01em;">Rolebound</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #FDF1DA; color: #5A3A00; font-size: 14px;"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #E39A1E;"></span>No model connected</span>
+<button type="button" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid #DDE2EA; border-radius: 10px; background: #FFFFFF; font-size: 15px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg>Workspace</button>
+<button type="button" aria-label="Switch to dark theme" style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #DDE2EA; border-radius: 10px; background: #FFFFFF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></button>
+</div>
+</header>
+
+<div style="flex: 1; display: flex; flex-wrap: wrap; align-items: stretch;">
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; padding: 56px 40px 28px;">
+<div style="max-width: 720px; width: 100%; margin: 0 auto; flex: 1; display: flex; flex-direction: column; gap: 28px;">
+
+<div style="display: flex; gap: 14px;">
+<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex: none; margin-top: 6px;"><rect width="28" height="28" rx="7" fill="#161B2E"></rect><path d="M9 21V13a4 4 0 0 1 4-4h4" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><circle cx="20.5" cy="9" r="2.6" fill="#F5B342"></circle></svg>
+<div style="display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+<h1 style="margin: 0; font-family: 'Funnel Display', sans-serif; font-weight: 600; font-size: 46px; line-height: 1.04; letter-spacing: -0.025em;">Let's find your next role.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #3C4459; max-width: 60ch;">I find openings at the companies you choose, check how well each one fits you, and fill out the applications in a browser you can watch. First I need an AI model to work with.</p>
+</div>
+</div>
+
+<section aria-labelledby="found-heading" style="margin-left: 42px; background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 16px; overflow: hidden;">
+<div style="padding: 20px 22px 6px;">
+<h2 id="found-heading" style="margin: 0; font-size: 16px; font-weight: 700;">Already signed in on this Mac</h2>
+</div>
+<div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 14px 22px 20px;">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 10px; background: #161B2E; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-family: 'Funnel Display', sans-serif; font-weight: 700; font-size: 18px; flex: none;">C</span>
+<div style="flex: 1 1 220px; min-width: 0;">
+<div style="font-size: 17px; font-weight: 700;">Cursor</div>
+<div style="font-size: 15px; color: #5E6779;">jordan.reyes@example.com, login good until Nov 26</div>
+</div>
+<button type="button" style="min-height: 44px; padding: 0 20px; border: 0; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-size: 16px; font-weight: 700;">Use Cursor</button>
+</div>
+<div style="border-top: 1px solid #DDE2EA; padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 14px; background: #F8F9FB;">
+<h3 style="margin: 0; font-size: 15px; font-weight: 600; color: #3C4459;">Or sign in with a subscription you already pay for</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D0DC; border-radius: 10px; background: #FFFFFF; font-size: 15px; font-weight: 600;">Sign in with ChatGPT</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D0DC; border-radius: 10px; background: #FFFFFF; font-size: 15px; font-weight: 600;">Sign in with Claude</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D0DC; border-radius: 10px; background: #FFFFFF; font-size: 15px; font-weight: 600;">Sign in with GitHub Copilot</button>
+</div>
+<a href="#" style="font-size: 15px; align-self: flex-start;">Paste an API key instead</a>
+</div>
+</section>
+
+</div>
+
+<div style="max-width: 720px; width: 100%; margin: 32px auto 0; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<button type="button" style="min-height: 36px; padding: 0 14px; border: 1px solid #DDE2EA; border-radius: 999px; background: #FFFFFF; font-size: 14px; color: #3C4459;">Import my resume</button>
+<button type="button" style="min-height: 36px; padding: 0 14px; border: 1px solid #DDE2EA; border-radius: 999px; background: #FFFFFF; font-size: 14px; color: #3C4459;">Add a job link</button>
+<button type="button" style="min-height: 36px; padding: 0 14px; border: 1px solid #DDE2EA; border-radius: 999px; background: #FFFFFF; font-size: 14px; color: #3C4459;">Find new roles</button>
+<button type="button" style="min-height: 36px; padding: 0 14px; border: 1px solid #DDE2EA; border-radius: 999px; background: #FFFFFF; font-size: 14px; color: #3C4459;">Apply to the next one</button>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 12px 12px 12px 18px; background: #FFFFFF; border: 1.5px solid #C9D0DC; border-radius: 16px;">
+<label for="composer-1" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Message Rolebound</label>
+<textarea id="composer-1" rows="2" placeholder="Connect a model above, then drop your resume here or tell me what you're looking for." style="flex: 1; min-width: 0; border: 0; resize: none; background: transparent; font-size: 17px; line-height: 1.45; padding: 6px 0; outline: none;"></textarea>
+<button type="button" aria-label="Attach a file" style="width: 44px; height: 44px; border: 0; border-radius: 10px; background: #F1F3F7; display: inline-flex; align-items: center; justify-content: center; flex: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5.5 5.5 0 0 1-7.8-7.8l8.6-8.6a3.7 3.7 0 0 1 5.2 5.2l-8.6 8.6a1.8 1.8 0 0 1-2.6-2.6l8-8"></path></svg></button>
+<button type="button" aria-label="Send" style="width: 44px; height: 44px; border: 0; border-radius: 10px; background: #C9D0DC; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; flex: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button>
+</div>
+<p style="margin: 0; font-size: 13px; color: #5E6779;">Enter sends. Esc stops whatever I'm doing.</p>
+</div>
+</main>
+
+<aside aria-label="Your search" style="flex: 1 1 340px; background: #FFFFFF; border-left: 1px solid #DDE2EA; padding: 36px 30px; display: flex; flex-direction: column; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-family: 'Funnel Display', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em;">Your search</h2>
+<ol style="list-style: none; margin: 0; padding: 0; position: relative;">
+<li aria-hidden="true" style="position: absolute; left: 6px; top: 22px; bottom: 22px; width: 2px; background: #DDE2EA;"></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Found</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Shortlisted</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Applying</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+<li style="display: flex; align-items: center; gap: 14px; padding: 11px 0; position: relative;"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid #C9D0DC; background: #FFFFFF; flex: none; box-sizing: border-box;"></span><span style="flex: 1; font-size: 16px; color: #3C4459;">Sent</span><span style="font-family: 'Funnel Display', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; color: #8A93A5;">0</span></li>
+</ol>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #5E6779;">Nothing on the route yet. Connect a model, give me your resume, and name a few companies you'd like to work for.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 15px; font-weight: 700;">Before the first application</h3>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>AI model</span><span style="color: #8A5A00; font-weight: 600;">Not connected</span></li>
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>Profile</span><span style="color: #5E6779;">Empty</span></li>
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>Resume</span><span style="color: #5E6779;">None yet</span></li>
+<li style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px;"><span>Companies to watch</span><span style="color: #5E6779;">None yet</span></li>
+</ul>
+</div>
+</aside>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2B4BDB","options":["#2B4BDB","#0F6E66","#6D3FD6","#161B2E"]},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#2B4BDB' };
+  }
+}
+</script>
+</body>
+</html>

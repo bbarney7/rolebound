@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rolebound — brand board</title>
+    <link rel="stylesheet" href="/fonts/rolebound.css" />
+    <style>
+      :root {
+        --graphite: #232830;
+        --graphite-2: #3a4150;
+        --citron: #c9d936;
+        --citron-ink: #2a3008;
+        --canvas: #f3f5f8;
+        --surface: #ffffff;
+        --ink: #1c2028;
+        --muted: #5f6775;
+        --line: #d8dde6;
+        --font-display: "Rolebound Display", "Bricolage Grotesque", sans-serif;
+        --font-body: "Rolebound Body", "Hanken Grotesk", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ink);
+        background: var(--canvas);
+      }
+
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+
+      h1, h2 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      h1 { font-size: 28px; margin: 0 0 6px; }
+      .lede { color: var(--muted); margin: 0 0 28px; max-width: 58ch; }
+
+      section {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+
+      section h2 { font-size: 18px; margin: 0 0 14px; }
+
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+      }
+
+      .swatch {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .swatch-chip { height: 56px; }
+      .swatch-meta { padding: 8px 10px; font-size: 12px; }
+      .swatch-meta strong { display: block; font-family: var(--font-display); }
+
+      .icon-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        align-items: end;
+      }
+
+      .icon-cell {
+        display: grid;
+        gap: 8px;
+        justify-items: center;
+        min-width: 72px;
+      }
+
+      .icon-cell img,
+      .icon-cell svg {
+        display: block;
+        image-rendering: pixelated;
+      }
+
+      .icon-cell span {
+        font-size: 11px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .dark-panel {
+        background: var(--graphite);
+        border-radius: 12px;
+        padding: 16px;
+        display: inline-flex;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .type-sample h3 {
+        font-family: var(--font-display);
+        font-size: 32px;
+        font-weight: 600;
+        margin: 0 0 6px;
+        letter-spacing: -0.03em;
+      }
+
+      .type-sample p {
+        margin: 0;
+        max-width: 52ch;
+        font-size: 15px;
+      }
+
+      .wordmark img { max-width: 100%; height: auto; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Rolebound brand board</h1>
+      <p class="lede">
+        Working product identity for the local job-search workspace redesign.
+        <strong>Rolebound</strong> is a working name only — no claim of cleared trademark or domain availability.
+      </p>
+
+      <section>
+        <h2>Palette</h2>
+        <div class="swatches">
+          <div class="swatch"><div class="swatch-chip" style="background:#232830"></div><div class="swatch-meta"><strong>Graphite</strong>#232830 · ink / frame</div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#3a4150"></div><div class="swatch-meta"><strong>Graphite 2</strong>#3A4150 · secondary ink</div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#c9d936"></div><div class="swatch-meta"><strong>Citron</strong>#C9D936 · accent</div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#2a3008"></div><div class="swatch-meta"><strong>Citron ink</strong>#2A3008 · on citron</div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#f3f5f8"></div><div class="swatch-meta"><strong>Canvas</strong>#F3F5F8 · page ground</div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#ffffff;border-bottom:1px solid var(--line)"></div><div class="swatch-meta"><strong>Surface</strong>#FFFFFF · panels</div></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Mark at size (folded-path R)</h2>
+        <div class="icon-grid">
+          <div class="icon-cell"><img src="/brand/rolebound-mark.svg" width="16" height="16" alt="16px mark" /><span>16px</span></div>
+          <div class="icon-cell"><img src="/brand/rolebound-mark.svg" width="24" height="24" alt="24px mark" /><span>24px</span></div>
+          <div class="icon-cell"><img src="/brand/rolebound-mark.svg" width="32" height="32" alt="32px mark" /><span>32px</span></div>
+          <div class="icon-cell"><img src="/brand/rolebound-mark.svg" width="48" height="48" alt="48px mark" /><span>48px</span></div>
+          <div class="icon-cell"><img src="/brand/rolebound-mark-mono.svg" width="32" height="32" alt="mono mark" /><span>mono</span></div>
+          <div class="icon-cell"><div class="dark-panel"><img src="/brand/rolebound-mark-on-dark.svg" width="32" height="32" alt="on dark" /></div><span>on dark</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>App icon variants</h2>
+        <div class="icon-grid">
+          <div class="icon-cell"><img src="/brand/rolebound-icon.svg" width="64" height="64" alt="app icon" /><span>color</span></div>
+          <div class="icon-cell"><img src="/brand/rolebound-icon-mono.svg" width="64" height="64" alt="mono icon" /><span>mono</span></div>
+          <div class="icon-cell"><img src="/brand/rolebound-favicon.svg" width="32" height="32" alt="favicon" /><span>favicon</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Wordmark lockup</h2>
+        <div class="wordmark"><img src="/brand/rolebound-wordmark.svg" width="220" height="40" alt="Rolebound wordmark" /></div>
+      </section>
+
+      <section class="type-sample">
+        <h2>Typography</h2>
+        <h3>Decisive workspace rhythm</h3>
+        <p>
+          Display: Rolebound Display (Bricolage Grotesque variable). Body: Rolebound Body (Hanken Grotesk variable).
+          Self-hosted WOFF2 only — see <code>/fonts/SOURCES.md</code>.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
